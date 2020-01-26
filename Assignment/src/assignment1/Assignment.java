@@ -63,6 +63,11 @@ public class Assignment {
         
             System.out.println("Enter pin");
             System.out.println("Note: default pin is 00000");
+            setPIN();
+            for (int k = 0; k < 10; k++) {
+                
+                System.out.println(this.guide[k]);      // number represent 0123456789
+            }
             String s = sc.next();
             int[] userResponsePIN = new int[s.length()];
 
