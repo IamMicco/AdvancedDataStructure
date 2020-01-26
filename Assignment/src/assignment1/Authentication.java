@@ -6,7 +6,9 @@ public class Authentication {
     private static int[] replica;
 
     public static int[] generateSequence () {
-        
+        /**
+         * generates the coded digits used to mask the real pin numbers
+         */
         number = new int[10];
 
         for (int i = 0; i < number.length; i++) {
@@ -18,7 +20,9 @@ public class Authentication {
     }
 
     public static boolean verify (int[] correctPIN, int[] userResponsePIN) {
-        
+        /**
+         * checks to verify user input with stored pin
+         */
         for (int i = 0; i < userResponsePIN.length; i++) {
             
             if (correctPIN[i] != userResponsePIN[i]) return false;
@@ -28,7 +32,9 @@ public class Authentication {
     }
     
     private static int[] getNumber () {
-        
+        /**
+         * returns replica of coded digit array
+         */
         replica = new int[10];
         
         for (int i = 0; i < number.length; i++) {

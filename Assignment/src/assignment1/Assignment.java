@@ -23,7 +23,10 @@ public class Assignment {
     }
     
     public void setPIN () {
-
+        
+        /** 
+         * it changes the encrypted or coded numbers in this.password
+         */ 
         this.guide = Authentication.generateSequence();
         for (int i = 0; i < this.PIN.length; i++) {
             
@@ -32,7 +35,10 @@ public class Assignment {
     }
 
     public void setPIN (int[] pin) {
-
+        
+        /**
+         * it changes the pin and the encrypted or coded numbers in this.password
+         */
         this.PIN = pin;
         this.guide = Authentication.generateSequence();
         for (int i = 0; i < this.PIN.length; i++) {
@@ -43,6 +49,7 @@ public class Assignment {
     
     public int[] getPassword () {
         
+        /** returns a replica of password */
         replica = new int[this.PIN.length];
         
         for (int i = 0; i < this.PIN.length; i++) {
@@ -55,6 +62,10 @@ public class Assignment {
     
     public void checkPassword () {
         
+        /**
+         * This is the main method being called, it manages other methods
+         * such as verification and changing password and pin.
+         */
         Scanner sc = new Scanner(System.in);
         
         int count = 0;

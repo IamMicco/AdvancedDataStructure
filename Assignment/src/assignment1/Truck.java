@@ -22,22 +22,30 @@ public class Truck {
     }
     
     public int getWeight () {
-        
+        /**
+         * returns weight of truck
+         */
         return weight;
     }
     
     public int getAxles () {
-        
+        /**
+         * returns number of axles on truck
+         */
         return axles;
     }
     
     public void setToll (int toll) {
-        
+        /**
+         * sets the toll amount
+         */
         this.toll = toll;
     }
     
     public int getToll () {
-        
+        /**
+         * returns toll amount
+         */
         return this.toll;
     }
 }

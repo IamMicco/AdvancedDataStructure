@@ -18,12 +18,17 @@ public class TollBooth {
     private ArrayList<Truck> array = new ArrayList<>();
     
     public int calculateToll (int weight, int axles) {
-        
-        return (5 * axles) + ((10 * weight) / 2);       // I do not know what unit the weight is in so I assumed it to be in tons
+        /**
+         * calculates total amount for the toll
+         * Note: weight is assumed to be in tons
+         */
+        return (5 * axles) + ((10 * weight) / 2);
     }
     
     public void Scan () {
-        
+        /**
+         * Scans for truck weight and number of axes
+         */
         Scanner sc = new Scanner(System.in);
         String choice = "yes";
         while (!choice.equals("no")) {
@@ -43,12 +48,17 @@ public class TollBooth {
     }
     
     public void collectTotals () {
-        
+        /**
+         * prints the total number of trucks and amount in receipts
+         */
         System.out.println("Totals since last collection - Receipts: $" + this.totalReceipts + " Trucks: " + array.size());
     }
     
     public void cashDrawer () {
-        
+        /**
+         * prints the total number of trucks and amount in receipts
+         * and clears the memory of previous transactions
+         */
         System.out.println("***   Collecting receipts   ***");
         System.out.println("Totals since the last collection - Receipts: $" + this.totalReceipts + " Trucks: " + array.size());
         this.totalReceipts = 0;
