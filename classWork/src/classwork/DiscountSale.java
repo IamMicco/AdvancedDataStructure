@@ -20,9 +20,26 @@ public class DiscountSale extends Sale {
         setDiscount(discount);
     }
     
+    public DiscountSale (DiscountSale otherDSale) {
+        
+        super(otherDSale);
+        this.discount = otherDSale.discount;
+    }
+    
     public void setDiscount (double discount) {
         
         this.discount = discount;
+    }
+    
+    public double bill () {
+        
+        double fraction = discount/100;
+        return (1 - fraction) * getPrice();
+    }
+    
+    public static void announcement () {
+        
+        System.out.println("This is discount sale");
     }
     
     public String toString () {

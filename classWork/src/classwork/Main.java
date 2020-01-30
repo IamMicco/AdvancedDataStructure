@@ -37,5 +37,34 @@ public class Main {
             
             
         }
+        /**
+         * This tests out the functionality of a copy constructor
+         */
+        DiscountSale ds1 = new DiscountSale("Laptop", 1300, 100);
+        System.out.println(ds1);
+        DiscountSale ds2 = new DiscountSale(ds1);
+        //ds2.setPrice(90);
+        System.out.println(ds2);
+        
+        DiscountSale ds = new DiscountSale("Laptop", 1300, 10.0);
+        Sale s = new Sale("Laptop", 1300);
+        
+        if (ds.equalDeals(s)) System.out.println("Equal Deals");
+        else System.out.println("Not equal");
+        
+        Sale s2 = new DiscountSale("Chain", 1500, 5.0);
+        s2.announcement();
+        
+        ds.announcement();
+        s.announcement();
+        
+        Sale s3 = s2.clone();
+        
+        ArrayList<Sale> saleArray = new ArrayList<Sale>();
+        saleArray.add(s);
+        saleArray.add(s2);
+        ArrayList<Sale> saleArray2 = (ArrayList<Sale>) saleArray.clone();
+        //s2.setPrice(1000000);
+        System.out.println(saleArray.toString());
     }
 }
