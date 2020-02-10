@@ -24,14 +24,14 @@ public class Question {
         return this.question;
     }
     
-    public void addAnswer (String answer) {
+    public void setAnswer (String answer) {
         
         this.answer = answer;
     }
     
     public void display () {
         
-        
+        System.out.println(this.question);
     }
     
     public boolean checkAnswer (String response) {

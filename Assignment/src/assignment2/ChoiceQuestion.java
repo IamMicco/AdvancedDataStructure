@@ -21,14 +21,13 @@ public class ChoiceQuestion extends Question {
         choices.add(new Choice(choice, correct));
     }
     
-    @Override
-    public void display () {
+    public String getAnswer () {
         
-        System.out.println(getQuestion());
-    }
-    
-    public void setAnswer () {
-        
-        
+        for (int i = 0; i < choices.size(); i++) {
+            
+            Choice choice = choices.get(i);
+            if (choice.getState()) return choice.getAnswer();
+        }
+        return null;
     }
 }
