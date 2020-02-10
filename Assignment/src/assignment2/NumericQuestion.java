@@ -12,9 +12,4 @@ package assignment2;
 public class NumericQuestion extends Question {
     
     
-    @Override
-    public void display () {
-        
-        
-    }
 }

@@ -11,9 +11,4 @@ package assignment2;
  */
 public class FillInQuestions extends Question {
     
-    @Override
-    public void display () {
-        
-        
-    }
 }

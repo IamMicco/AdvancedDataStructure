@@ -23,9 +23,8 @@ public class ChoiceQuestion extends Question {
     
     public String getAnswer () {
         
-        for (int i = 0; i < choices.size(); i++) {
+        for (Choice choice : choices) {
             
-            Choice choice = choices.get(i);
             if (choice.getState()) return choice.getAnswer();
         }
         return null;

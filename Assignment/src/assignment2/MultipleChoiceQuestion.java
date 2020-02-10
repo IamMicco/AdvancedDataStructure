@@ -12,9 +12,4 @@ package assignment2;
 public class MultipleChoiceQuestion extends ChoiceQuestion {
     
     
-    @Override
-    public void display () {
-        
-        
-    }
 }

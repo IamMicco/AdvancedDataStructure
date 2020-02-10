@@ -8,6 +8,7 @@ public class Question {
     
     private String question;
     private String answer;
+    private Choice userAnswer;
     
     public Question () {
         
@@ -29,6 +30,11 @@ public class Question {
         this.answer = answer;
     }
     
+    public void setUserAnswer (Choice userAnswer) {
+        
+        this.userAnswer = userAnswer;
+    }
+    
     public void display () {
         
         System.out.println(this.question);
@@ -36,6 +42,7 @@ public class Question {
     
     public boolean checkAnswer (String response) {
         
-        return true;  // This has no meaning
+        if (this.userAnswer.getState()) return true;
+        return false;
     }
 }

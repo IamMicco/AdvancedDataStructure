@@ -12,9 +12,4 @@ package assignment2;
 public class FreeResponseQuestion extends Question {
     
     
-    @Override
-    public void display () {
-        
-        
-    }
 }
