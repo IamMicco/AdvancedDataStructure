@@ -14,13 +14,9 @@ public class Choice {
     private String answer;
     private boolean state;
     
-    public void setAnswer(String answer) {
+    public Choice (String answer, boolean state) {
         
         this.answer = answer;
-    }
-    
-    public void setState (boolean state) {
-        
         this.state = state;
     }
     

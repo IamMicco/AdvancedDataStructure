@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package assignment2;
 
 /**
@@ -11,8 +6,8 @@ package assignment2;
  */
 public class Question {
     
-    String question;
-    String answer;
+    private String question;
+    private String answer;
     
     public Question () {
         
@@ -22,6 +17,11 @@ public class Question {
     public void setQuestion (String question) {
         
         this.question = question;
+    }
+    
+    public String getQuestion () {
+        
+        return this.question;
     }
     
     public void addAnswer (String answer) {

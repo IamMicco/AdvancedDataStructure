@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package assignment2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,18 +13,18 @@ public class ChoiceQuestion extends Question {
     
     public ChoiceQuestion () {
         
-//        choices = new List<Choice>();
+        choices = new ArrayList<>();
     }
     
     public void addChoice (String choice, boolean correct) {
         
-        
+        choices.add(new Choice(choice, correct));
     }
     
     @Override
     public void display () {
         
-        
+        System.out.println(getQuestion());
     }
     
     public void setAnswer () {
