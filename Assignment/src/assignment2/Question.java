@@ -56,9 +56,9 @@ public class Question {
         System.out.println(this.question);
     }
     
-//    public boolean checkAnswer () {
+//    @Override
+//    public String toString () {
 //        
-//        if (this.userAnswer.getState()) return true;
-//        return false;
+//        
 //    }
 }

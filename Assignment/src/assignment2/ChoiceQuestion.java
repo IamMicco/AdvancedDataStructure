@@ -21,6 +21,11 @@ public class ChoiceQuestion extends Question {
         choices.add(new Choice(choice, correct));
     }
     
+    public List getChoices () {
+        
+        return choices;
+    }
+    
     public void print () {
         
         System.out.println(choices);
