@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ChoiceQuestion extends Question {
     
-    List<Choice> choices;
+    private List<Choice> choices;
     
     public ChoiceQuestion () {
         
@@ -21,12 +21,17 @@ public class ChoiceQuestion extends Question {
         choices.add(new Choice(choice, correct));
     }
     
-    public String getAnswer () {
+    public void print () {
+        
+        System.out.println(choices);
+    }
+    
+    public boolean getAnswer () {
         
         for (Choice choice : choices) {
             
-            if (choice.getState()) return choice.getAnswer();
+            if (choice.getState()) return true;
         }
-        return null;
+        return false;
     }
 }

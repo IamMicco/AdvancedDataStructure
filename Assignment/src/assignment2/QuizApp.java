@@ -12,6 +12,9 @@ package assignment2;
 public class QuizApp {
     public static void main (String[] args) {
         
-        
+        MultipleChoiceQuestion question = new MultipleChoiceQuestion();
+        question.addChoice("Michael", true);
+        question.addChoice("James", false);
+        question.print();
     }
 }
