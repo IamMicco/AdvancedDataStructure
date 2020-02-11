@@ -6,15 +6,25 @@ package assignment2;
  */
 public class Circle implements Shape {
     
-    private int radius;
+    private double radius;
     
     public Circle (int radius) {
         
         this.radius = radius;
     }
     
+    public double getRadius () {
+        
+        return radius;
+    }
+    
     public double area () {
         
-        return 0.0;
+        return Math.PI * (radius * radius);
+    }
+    
+    public String toString () {
+        
+        return String.format("A circle with radius %.2f would result in an area of %.2f", radius, area());
     }
 }
