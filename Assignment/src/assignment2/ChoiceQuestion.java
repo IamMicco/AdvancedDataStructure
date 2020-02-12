@@ -31,7 +31,7 @@ public class ChoiceQuestion extends Question {
         System.out.println(choices);
     }
     
-    public boolean getAnswer () {
+    public boolean checkAnswer () {
         
         for (Choice choice : choices) {
             

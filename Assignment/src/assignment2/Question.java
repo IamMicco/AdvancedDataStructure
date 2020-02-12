@@ -56,9 +56,15 @@ public class Question {
         System.out.println(this.question);
     }
     
-//    @Override
-//    public String toString () {
-//        
-//        
-//    }
+    @Override
+    public String toString () {
+        
+        return this.question;
+    }
+    
+    @Override
+    public boolean equals (Object object) {
+        
+        return answer.equals(object);
+    }
 }

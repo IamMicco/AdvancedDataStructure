@@ -35,4 +35,12 @@ public class Choice {
         
         return this.state;
     }
+    
+    @Override
+    public boolean equals (Object userAns) {
+        
+        String userAnswer = (String) userAns;
+        if (answer.equals(userAnswer)) return true;
+        return false;
+    }
 }

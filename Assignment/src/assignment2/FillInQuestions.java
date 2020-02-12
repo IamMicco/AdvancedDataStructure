@@ -9,12 +9,8 @@ import java.util.List;
  */
 public class FillInQuestions extends Question {
     
-    private List<Choice> choices;
     
     public FillInQuestions () {
         
-        choices = new ArrayList<>();
     }
-    
-    
 }

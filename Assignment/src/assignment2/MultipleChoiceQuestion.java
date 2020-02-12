@@ -1,7 +1,6 @@
 package assignment2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -9,20 +8,34 @@ import java.util.List;
  */
 public class MultipleChoiceQuestion extends ChoiceQuestion {
     
-    private List<Choice> result;
+    private final List<Choice> correctAnswers;
+
     
     public MultipleChoiceQuestion () {
         
-        result = new ArrayList<>();
+        correctAnswers = new ArrayList<>();
     }
     
-    public List getMulAnswers () {
+    private void getMultiAnswers () {
         
         List<Choice> choices = getChoices();
         for (Choice choice : choices) {
             
-            if (choice.getState()) result.add(choice);
+            if (choice.getState()) correctAnswers.add(choice);
         }
-        return result;
+    }
+    
+    public boolean checkAnswers (List<String> userAnswers) {
+        
+        boolean status;
+        getMultiAnswers();
+        for (String answer : userAnswers) {
+            
+            if (correctAnswers.contains(answer)) status = true;
+            else status = false;
+            
+            if (!status) return false;
+        }
+        return true;
     }
 }
