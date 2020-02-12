@@ -16,7 +16,7 @@ public class Choice {
         this.state = state;
     }
     
-    public Choice (int answer, boolean state) {
+    public Choice (int answer) {
         
         this.numAnswer = answer;
     }

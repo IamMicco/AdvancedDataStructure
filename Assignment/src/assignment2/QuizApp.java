@@ -9,39 +9,32 @@ import java.util.List;
  */
 public class QuizApp {
     
-    public final List<String> s1;
-    public String str;
-    
-    public QuizApp () {
-        
-        s1 = new ArrayList<>();
-        str = "Hello how are you doing";
-    }
-    
-    public void sub () {
-        
-        s1.add("air");
-        s1.add("ballon");
-        s1.add("carnival");
-    }
-    
     public static void main (String[] args) {
         
-//        MultipleChoiceQuestion question = new MultipleChoiceQuestion();
-//        question.addChoice("Michael", true);
-//        question.addChoice("James", false);
-//        question.print();
-//        
-//        NumericQuestion question2 = new NumericQuestion();
-//        question2.setNumAnswer(12);
-//        System.out.println(question2.getNumAnswer());
+        ChoiceQuestion q = new ChoiceQuestion();
+        q.setQuestion("How many heads do I have?");
+        q.addChoice("1", true);
+        q.addChoice("2", false);
+        q.display();
+        String choiceQuestionAnswer = q.sc.next();
+        System.out.println(q.checkAnswer(choiceQuestionAnswer));
         
-        QuizApp app = new QuizApp();
-        app.sub();
-        String val = "Hello how are you doing";
+        MultipleChoiceQuestion m = new MultipleChoiceQuestion();
+        m.setQuestion("How many people are in room 215 at 11:00 am on Tuesdays?");
+        m.addChoice("1", false);
+        m.addChoice("2", false);
+        m.addChoice("3", false);
+        m.addChoice("4", true);
+        m.addChoice("5", false);
+        m.display();
+        String MultipleQuestionAnswer = m.sc.next();
+        System.out.println(m.checkAnswer(MultipleQuestionAnswer));
         
-        if (app.s1.contains("carnival")) System.out.println("yahhhhhhh");
-        System.out.println(app.s1);
-        if (app.str.equals(val)) System.out.println("Hurrrrayyyyyyy");
+        NumericQuestion n = new NumericQuestion();
+        n.setQuestion("What year is it?");
+        n.setNumAnswer(2020);
+        n.display();
+        int numericQuestionAnswer = n.sc.nextInt();
+        System.out.println(n.checkAnswer(numericQuestionAnswer));
     }
 }

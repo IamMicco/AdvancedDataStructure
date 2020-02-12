@@ -1,7 +1,6 @@
 package assignment2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -10,10 +9,12 @@ import java.util.List;
 public class ChoiceQuestion extends Question {
     
     private List<Choice> choices;
+    public Scanner sc;
     
     public ChoiceQuestion () {
         
         choices = new ArrayList<>();
+        sc = new Scanner(System.in);
     }
     
     public void addChoice (String choice, boolean correct) {
@@ -31,12 +32,22 @@ public class ChoiceQuestion extends Question {
         System.out.println(choices);
     }
     
-    public boolean checkAnswer () {
+    public boolean checkAnswer (String userAnswer) {
         
         for (Choice choice : choices) {
             
-            if (choice.getState()) return true;
+            if (choice.getState() && choice.getAnswer().equals(userAnswer)) return true;
         }
         return false;
+    }
+    
+    @Override
+    public void display () {
+        
+        super.display();
+        for (Choice choice : choices) {
+            
+            System.out.println(String.format("-> %s", choice.getAnswer()));
+        }
     }
 }
