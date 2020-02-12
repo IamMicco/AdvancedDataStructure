@@ -23,9 +23,17 @@ public class LoadedDice extends Random {
         else return nextInt;
     }
     
-    public static void main (String[] args) {
-        
-        LoadedDice dice = new LoadedDice();
-        System.out.println(dice.nextInt(100));
+    
+    public static void printDiceRolls(Random randGenerator){
+    
+        for(int i = 0; i < 100; i++){
+        System.out.println(randGenerator.nextInt(6) + 1);
+        }
+    }
+    
+    public static void main(String[] args){
+    
+        LoadedDice randGenerator = new LoadedDice();
+        printDiceRolls(randGenerator);
     }
 }
