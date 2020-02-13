@@ -36,5 +36,7 @@ public class QuizApp {
         n.display();
         int numericQuestionAnswer = n.sc.nextInt();
         System.out.println(n.checkAnswer(numericQuestionAnswer));
+        
+        
     }
 }
