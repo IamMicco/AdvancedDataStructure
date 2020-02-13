@@ -7,10 +7,6 @@ import java.util.List;
  *
  * @author Michael Nwabuobi
  */
-public class FillInQuestions extends Question {
+public class FillInQuestion extends Question {
     
-    
-    public FillInQuestions () {
-        
-    }
 }

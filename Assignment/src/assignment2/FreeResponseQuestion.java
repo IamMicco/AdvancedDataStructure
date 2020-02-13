@@ -11,5 +11,4 @@ package assignment2;
  */
 public class FreeResponseQuestion extends Question {
     
-    
 }

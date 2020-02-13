@@ -24,11 +24,13 @@ public class Rectangle implements Shape {
         return this.height;
     }
     
+    @Override
     public double area () {
         
         return width * height;
     }
     
+    @Override
     public String toString () {
         
         return String.format("A Rectangle with width %.2f and height %.2f would yield an area of %.2f",

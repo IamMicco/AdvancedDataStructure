@@ -1,7 +1,6 @@
 package assignment2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 /**
  *
@@ -9,7 +8,7 @@ import java.util.List;
  */
 public class QuizApp {
     
-    public static void main (String[] args) {
+    public static void main (String[] args) throws IOException {
         
         ChoiceQuestion q = new ChoiceQuestion();
         q.setQuestion("How many heads do I have?");
@@ -37,6 +36,18 @@ public class QuizApp {
         int numericQuestionAnswer = n.sc.nextInt();
         System.out.println(n.checkAnswer(numericQuestionAnswer));
         
+        FillInQuestion f = new FillInQuestion();
+        f.setQuestion("The inventor of Java was _________");
+        f.setAnswer("James Gosling");
+        f.display();
+        String fillInQuestionAnswer = f.br.readLine();
+        System.out.println(f.equals(fillInQuestionAnswer));
         
+        FreeResponseQuestion fr = new FreeResponseQuestion();
+        fr.setQuestion("What is the size of an integer in a computer memory?");
+        fr.setAnswer("4 bits");
+        fr.display();
+        String freeResponseQuestionAnswer = fr.br.readLine();
+        System.out.println(fr.equals(freeResponseQuestionAnswer));
     }
 }

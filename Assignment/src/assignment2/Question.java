@@ -1,5 +1,7 @@
 package assignment2;
 
+import java.io.*;
+
 /**
  *
  * @author Michael Nwabuobi
@@ -10,10 +12,11 @@ public class Question {
     private String answer;
     private double numAnswer;
     private Choice userAnswer;
+    BufferedReader br;
     
     public Question () {
         
-        
+        br = new BufferedReader(new InputStreamReader(System.in));
     }
     
     public void setQuestion (String question) {
