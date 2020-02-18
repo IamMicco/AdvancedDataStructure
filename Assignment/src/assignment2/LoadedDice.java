@@ -23,7 +23,6 @@ public class LoadedDice extends Random {
         else return nextInt;
     }
     
-    
     public static void printDiceRolls(Random randGenerator){
     
         for(int i = 0; i < 100; i++){
