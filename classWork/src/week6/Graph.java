@@ -128,7 +128,9 @@ public class Graph {
         StringBuilder s = new StringBuilder();
         s.append(V + " vertices, " + E + " edges " + NEWLINE);
         for (int v = 0; v < V; v++) {
+
             s.append(v + ": ");
+            // Iterator
             for (int w : adj[v]) {
                 s.append(w + " ");
             }
@@ -139,7 +141,7 @@ public class Graph {
 
     //Testing the Graph
     public static void main(String[] args) {
-        Graph G = new Graph("tinyG.txt");
+        Graph G = new Graph("mediumG.txt");
         System.out.println(G);
     }
 }
