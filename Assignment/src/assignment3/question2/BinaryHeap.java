@@ -23,7 +23,7 @@ public class BinaryHeap<T> {
 
     protected void swim () {
         
-        if ()
+        // if ()
     }
 
     protected void sink () {

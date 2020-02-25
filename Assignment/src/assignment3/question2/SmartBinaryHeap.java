@@ -4,7 +4,8 @@ public class SmartBinaryHeap <T extends Comparable<T>> extends BinaryHeap <T> {
 
     public SmartBinaryHeap(Class<T> cl, int capacity) {
         super(cl, capacity);
-        // TODO Auto-generated constructor stub
+
+        
     }
 
     public SmartBinaryHeap(boolean isMinHeap) {
@@ -18,6 +19,6 @@ public class SmartBinaryHeap <T extends Comparable<T>> extends BinaryHeap <T> {
 
     protected void sink () {
 
-        
+
     }
 }
