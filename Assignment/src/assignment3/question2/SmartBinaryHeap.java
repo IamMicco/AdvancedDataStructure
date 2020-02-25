@@ -6,4 +6,18 @@ public class SmartBinaryHeap <T extends Comparable<T>> extends BinaryHeap <T> {
         super(cl, capacity);
         // TODO Auto-generated constructor stub
     }
+
+    public SmartBinaryHeap(boolean isMinHeap) {
+
+    }
+
+    protected void swim () {
+
+
+    }
+
+    protected void sink () {
+
+        
+    }
 }

@@ -81,13 +81,13 @@ public class Bag<T> implements Iterable<T> {
 
     
     //Test Bag class 
-    public static void main(String[] args) {
-        Bag<String> bag = new Bag<String>();
-        bag.add("Hello World");
-        bag.add("Hi there");
-        System.out.println("size of bag = " + bag.size());
-        for (String s : bag) {
-            System.out.println(s);
-        }
-    }
+//    public static void main(String[] args) {
+//        Bag<String> bag = new Bag<String>();
+//        bag.add("Hello World");
+//        bag.add("Hi there");
+//        System.out.println("size of bag = " + bag.size());
+//        for (String s : bag) {
+//            System.out.println(s);
+//        }
+//    }
 }
