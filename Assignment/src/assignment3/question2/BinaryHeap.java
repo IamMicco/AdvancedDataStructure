@@ -1,4 +1,4 @@
-// package assignment3.question2;
+package assignment3.question2;
 
 import java.lang.reflect.Array;
 

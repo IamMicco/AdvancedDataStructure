@@ -1,6 +1,6 @@
 package assignment3.question1;
 
-public class Assignment extends Comparable<T> {
+public class Assignment <T extends Comparable<T>> {
 
     private int course;
     private String task;
@@ -35,6 +35,4 @@ public class Assignment extends Comparable<T> {
 
         return date;
     }
-
-
 }
