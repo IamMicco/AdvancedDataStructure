@@ -23,7 +23,7 @@ public class BinaryHeap<T> {
 
     protected void swim () {
         
-        
+
     }
 
     protected void sink () {
@@ -39,6 +39,7 @@ public class BinaryHeap<T> {
 
     public T remove () {
 
+        if (isEmpty()) return null;
         T value = heap[size - 1];
         heap[size - 1] = null;
         return value;
