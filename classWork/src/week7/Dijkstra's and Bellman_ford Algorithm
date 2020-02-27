@@ -1,0 +1,9 @@
+                    ***   Dijkstra's Algorithm   ***
+
+- Find the "cheapest" vertex. The one you can get to in the least amount in time.
+- Update the cost of the neighbors for the vertex
+- Update and repeat until you're done with every V in the graph
+- Calculate the final path
+
+                    ***   Bellman-Ford Algorithm   ***
+
