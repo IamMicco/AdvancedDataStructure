@@ -8,7 +8,6 @@ public class AssignmentLog {
 
     public void addProject (Assignment newAssignment) {
 
-
     }
 
     public void addProject (int courseCode, String task, int dueDate) {
