@@ -1,6 +1,6 @@
 package assignment3.question1;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 
 public class Assignment implements Comparable<Assignment> {
@@ -37,17 +37,27 @@ public class Assignment implements Comparable<Assignment> {
         int i = 0;
         for (String value : dateArr) {
 
-            dateIntArr[++i] = Integer.parseInt(value);
+            dateIntArr[i++] = Integer.parseInt(value);
         }
         cal.set(Calendar.YEAR, dateIntArr[2]);
         cal.set(Calendar.MONTH, dateIntArr[0] - 1);
         cal.set(Calendar.DAY_OF_MONTH, dateIntArr[1]);
-        this.date = (Date) cal.getTime();
+        this.date = cal.getTime();
     }
 
     public Date getDueDate () {
 
         return date;
+    }
+
+    public String tillDueDate () {
+
+        long difference = this.date.getTime() - System.currentTimeMillis();
+        int seconds = (int) difference / 1000 % 60;
+        int minutes = (int) difference / (60 * 1000) % 60;
+        int hours = (int) difference / (60 * 60 * 1000) % 24;
+        int days = (int) difference / (24 * 60 * 60 * 1000);
+        return String.format("Assignment due in %d days, %d hours, %d minutes, %d seconds", days, hours, minutes, seconds);
     }
 
     @Override
@@ -58,6 +68,6 @@ public class Assignment implements Comparable<Assignment> {
 
     public String toString () {
 
-        return String.format("Course: d%, Task: s%, Due date: s%", course, task, date.toString());
+        return String.format("Course number: %d, Task: %s, Due date: %s", course, task, date.toString());
     }
 }

@@ -4,9 +4,14 @@ public class AssignmentLog {
 
     private PriorityQueue<Assignment> log;
 
-    public void addProject (Assignment newAssignment) {
+    public AssignmentLog () {
 
         log = new PriorityQueue<>(Assignment.class, 10);
+    }
+
+    public void addProject (Assignment newAssignment) {
+
+        log.add(newAssignment);
     }
 
     public void addProject (int courseCode, String task, String dueDate) {
@@ -20,6 +25,7 @@ public class AssignmentLog {
 
     public Assignment getNextProject () {
 
+        System.out.println(log.peek().tillDueDate());
         return log.remove();
     }
 
