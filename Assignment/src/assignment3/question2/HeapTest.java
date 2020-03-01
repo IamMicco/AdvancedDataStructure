@@ -21,7 +21,7 @@ public class HeapTest {
      * A very minimal test for the SmartBinaryHeap
      */
     public static void testSmartBinaryHeap(boolean isMin) {
-        SmartBinaryHeap<Integer> minInts = new SmartBinaryHeap<Integer>(Integer.class, 10, isMin);
+        SmartBinaryHeap<Integer> minInts = new SmartBinaryHeap<Integer>(Integer.class, 7, isMin);
         
         minInts.add(13);
         minInts.add(20);
@@ -42,7 +42,7 @@ public class HeapTest {
         System.out.println();
         System.out.println();
 
-        SmartBinaryHeap<String> minStrs = new SmartBinaryHeap<String>(String.class, 10, isMin);
+        SmartBinaryHeap<String> minStrs = new SmartBinaryHeap<String>(String.class, 4, isMin);
         minStrs.add("Kona");
         minStrs.add("Daisy");        
         minStrs.add("Meghan");
@@ -62,7 +62,7 @@ public class HeapTest {
      */
     private static BinaryHeap<Integer> buildBinaryHeap(int size) {
     	Random rand = new Random();
-    	BinaryHeap<Integer> bh = new BinaryHeap<Integer>(Integer.class, size + 10);
+    	BinaryHeap<Integer> bh = new BinaryHeap<Integer>(Integer.class, size);
     	
     	for (int i = 0; i < size; i++) {
     		bh.add(rand.nextInt(2 * size) - size / 2);
@@ -77,7 +77,7 @@ public class HeapTest {
      */    
     private static FourHeap<Integer> buildFourHeap(int size) {
     	Random rand = new Random();
-    	FourHeap<Integer> fh = new FourHeap<Integer>(Integer.class, size + 1);
+    	FourHeap<Integer> fh = new FourHeap<Integer>(Integer.class, size);
     	
     	for (int i = 0; i < size; i++) {
     		fh.add(rand.nextInt(2 * size) - size / 2);

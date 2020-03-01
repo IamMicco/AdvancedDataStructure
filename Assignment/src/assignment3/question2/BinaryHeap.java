@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 
 public class BinaryHeap <T extends Comparable<T>> {
 
-    public T[] heap;        // Remember to change to private
+    protected T[] heap;
     private Class<T> cl;
     private final int capacity;
     private int size;
@@ -54,7 +54,10 @@ public class BinaryHeap <T extends Comparable<T>> {
     }
 
     protected void sink (int index) {
-
+        /**
+         * This method compares the children with the parents
+         * and sinks the parent if it is greater than the child 
+         */
         if (isLeaf(index)) return;
         if (heap[index].compareTo(heap[leftChild(index)]) > 0 || heap[index].compareTo(heap[rightChild(index)]) > 0) {
 
@@ -94,7 +97,7 @@ public class BinaryHeap <T extends Comparable<T>> {
 
         if (isEmpty()) return null;
         T value = heap[size - 1];
-        heap[size - 1] = null;
+        heap[--size] = null;
         return value;
     }
 

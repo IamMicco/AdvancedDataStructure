@@ -65,7 +65,8 @@ public class FourHeap <T extends Comparable<T>> {
     protected void sink (int index) {
 
         if (isLeaf(index)) return;
-        if (heap[index].compareTo(heap[leftChild(index)]) > 0 || heap[index].compareTo(heap[middleLeftChild(index)]) > 0 || heap[index].compareTo(heap[middleRightChild(index)]) > 0 || heap[index].compareTo(heap[rightChild(index)]) > 0) {
+        if (heap[index].compareTo(heap[leftChild(index)]) > 0 || heap[index].compareTo(heap[middleLeftChild(index)]) > 0 || 
+        heap[index].compareTo(heap[middleRightChild(index)]) > 0 || heap[index].compareTo(heap[rightChild(index)]) > 0) {
 
             if (heap[index].compareTo(heap[leftChild(index)]) > 0) {
 
