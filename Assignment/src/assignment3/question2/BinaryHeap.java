@@ -2,7 +2,7 @@ package assignment3.question2;
 
 import java.lang.reflect.Array;
 
-public class BinaryHeap<T> {
+public class BinaryHeap <T extends Comparable<T>> {
 
     public T[] heap;        // Remember to change to private
     private Class<T> cl;
@@ -11,24 +11,72 @@ public class BinaryHeap<T> {
 
     public BinaryHeap (Class<T> cl, int capacity) {
 
+        size = 0;
         this.cl = cl;
         this.capacity = capacity;
         heap = (T[]) Array.newInstance(cl, capacity);
     }
 
+    private int parent (int index) {
+
+        if (index == 0) return 0;
+        return (index - 1) / 2;
+    }
+
+    private int leftChild (int index) {
+        
+        return (2 * index) + 1;
+    }
+
+    private int rightChild (int index) {
+
+        return (2 * index) + 2;
+    }
+
+
     public void add (T value) {
 
-        heap[size++] = value;
+        heap[++size] = value;
+        swim(size - 1);
     }
 
-    protected void swim () {
-        
-        // if ()
+    private boolean isLeaf (int index) {
+
+        if (index > (size / 2) && index <= size) return true;
+        return false;
+    }
+    
+    private void swap (int a, int b) {
+
+        T temp = heap[a];
+        heap[a] = heap[b];
+        heap[b] = temp;
     }
 
-    protected void sink () {
+    protected void sink (int index) {
 
+        if (isLeaf(index)) return;
+        if (heap[index].compareTo(heap[leftChild(index)]) > 0 || heap[index].compareTo(heap[rightChild(index)]) > 0) {
 
+            if (heap[index].compareTo(heap[leftChild(index)]) > 0) {
+
+                swap(index, leftChild(index));
+                sink(leftChild(index));
+            } else {
+
+                swap(index, rightChild(index));
+                sink(rightChild(index));
+            }
+        }
+    }
+
+    protected void swim (int index) {
+
+        if (heap[index].compareTo(heap[parent(index)]) < 0) {
+
+            swap(index, parent(index));
+            swim(parent(index));
+        }
     }
 
     public boolean isEmpty () {

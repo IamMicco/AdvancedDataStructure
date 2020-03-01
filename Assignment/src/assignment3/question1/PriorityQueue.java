@@ -1,4 +1,4 @@
-package week4;
+package assignment3.question1;
 
 import java.lang.reflect.Array;
 

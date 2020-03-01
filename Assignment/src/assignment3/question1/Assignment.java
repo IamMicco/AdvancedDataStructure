@@ -37,7 +37,7 @@ public class Assignment implements Comparable<Assignment> {
         int i = 0;
         for (String value : dateArr) {
 
-            dateIntArr[i++] = Integer.parseInt(value);
+            dateIntArr[++i] = Integer.parseInt(value);
         }
         cal.set(Calendar.YEAR, dateIntArr[2]);
         cal.set(Calendar.MONTH, dateIntArr[0] - 1);

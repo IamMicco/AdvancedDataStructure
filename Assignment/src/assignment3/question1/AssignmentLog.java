@@ -1,16 +1,15 @@
 package assignment3.question1;
 
-import java.util.PriorityQueue;
-
 public class AssignmentLog {
 
     private PriorityQueue<Assignment> log;
 
     public void addProject (Assignment newAssignment) {
 
+        log = new PriorityQueue<>(Assignment.class, 10);
     }
 
-    public void addProject (int courseCode, String task, int dueDate) {
+    public void addProject (int courseCode, String task, String dueDate) {
 
         Assignment as = new Assignment();
         as.setCourseCode(courseCode);
@@ -21,15 +20,11 @@ public class AssignmentLog {
 
     public Assignment getNextProject () {
 
-        return log.poll();
+        return log.remove();
     }
 
     public void removeNextProject () {
 
-        try {
-            log.remove();
-        } catch (Exception e) { 
-            System.out.println ("Log is currently empty");
-        }
+        log.remove();
     }
 }
