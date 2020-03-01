@@ -17,18 +17,18 @@ public class BinaryHeap <T extends Comparable<T>> {
         heap = (T[]) Array.newInstance(cl, capacity);
     }
 
-    private int parent (int index) {
+    protected int parent (int index) {
 
         if (index == 0) return 0;
         return (index - 1) / 2;
     }
 
-    private int leftChild (int index) {
+    protected int leftChild (int index) {
         
         return (2 * index) + 1;
     }
 
-    private int rightChild (int index) {
+    protected int rightChild (int index) {
 
         return (2 * index) + 2;
     }
@@ -40,13 +40,13 @@ public class BinaryHeap <T extends Comparable<T>> {
         swim(size - 1);
     }
 
-    private boolean isLeaf (int index) {
+    protected boolean isLeaf (int index) {
 
         if (index > (size / 2) && index <= size) return true;
         return false;
     }
     
-    private void swap (int a, int b) {
+    protected void swap (int a, int b) {
 
         T temp = heap[a];
         heap[a] = heap[b];
