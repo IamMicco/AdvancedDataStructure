@@ -111,19 +111,4 @@ public class BinaryHeap <T extends Comparable<T>> {
 
         return "BinaryHeap explanation";
     }
-
-    // public static void main (String[] args) {
-
-    //     BinaryHeap<String> s = new BinaryHeap<>(String.class, 10);
-    //     s.add("Hello");
-    //     s.add("bye");
-    //     s.add("yello");
-    //     s.add("blahblahblah");
-    //     s.add("jingle");
-
-    //     for (int i = 0; i < s.getCapacity(); i++) {
-
-    //         System.out.println(s.heap[i]);
-    //     }
-    // }
 }

@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 
 public class FourHeap <T extends Comparable<T>> {
 
-    public T[] heap;        // Remember to change to private
+    protected T[] heap;
     private Class<T> cl;
     private final int capacity;
     private int size;
