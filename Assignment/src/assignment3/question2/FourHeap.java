@@ -107,7 +107,7 @@ public class FourHeap <T extends Comparable<T>> {
 
         if (isEmpty()) return null;
         T value = heap[size - 1];
-        heap[size - 1] = null;
+        heap[--size] = null;
         return value;
     }
 
