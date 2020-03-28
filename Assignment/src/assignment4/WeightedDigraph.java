@@ -129,8 +129,8 @@ public class WeightedDigraph {
         
         while (queue.size() != 0) {
             
-            int current = queue.poll();
-            Iterator<DirectedEdge> i = adj[current].iterator();
+            start = queue.poll();
+            Iterator<DirectedEdge> i = adj[start].iterator();
             while (i.hasNext()) {
                 
                 int next = i.next().to();
@@ -138,7 +138,7 @@ public class WeightedDigraph {
                     
                     queue.add(next);
                     visited[next] = true;
-                    orderOfIteration.add(current);
+                    orderOfIteration.add(next);
                 }
             }
         }
@@ -283,9 +283,16 @@ public class WeightedDigraph {
         System.out.println(F);
         // int source = 0;
         // G.dijkstra(source);
-        // System.out.println(G.DAG());
-        // System.out.println(G.breadthFirstSearch(0));
-        // System.out.println(G.depthFirstSearch(0));
+        System.out.println("Does a loop occur in the tree");
+        System.out.println(G.DAG());
+        System.out.println("\n");
+        System.out.println("Breadth First Search");
+        System.out.println(G.breadthFirstSearch(0));
+        System.out.println("\n");
+        System.out.println("Depth First Search");
+        System.out.println(G.depthFirstSearch(0));
+        System.out.println("\n");
+        // System.out.println(String.format("The shortest part from %d", source));
         // for (int i = 0; i < G.dist.length; i++) {
 
         //     System.out.println(source + " to " + i + " is " + G.dist[i]);

@@ -24,8 +24,8 @@ public class DirectedEdge implements Comparator<DirectedEdge> {
 
     public DirectedEdge (DirectedEdge edge) {
 
-        this.v = edge.v;
-        this.v = edge.w;
+        this.v = edge.from();
+        this.w = edge.to();
         this.weight = edge.weight;
     }
 
