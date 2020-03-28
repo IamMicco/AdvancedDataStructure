@@ -22,6 +22,13 @@ public class DirectedEdge implements Comparator<DirectedEdge> {
         this.weight = weight;
     }
 
+    public DirectedEdge (DirectedEdge edge) {
+
+        this.v = edge.v;
+        this.v = edge.w;
+        this.weight = edge.weight;
+    }
+
     //Returns the tail vertex of the directed edge.
     public int from() {
         return v;

@@ -32,7 +32,9 @@ public class Bag<T> implements Iterable<T> {
 
     public Bag (Bag bag) {
 
-        this.first = bag.first();
+        this.first = new Node<T>();
+        this.first.item = bag.first().item;
+        this.first.next = bag.first().next;
         this.n = bag.n();
     }
 
