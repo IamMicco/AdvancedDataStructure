@@ -77,7 +77,10 @@ public class Server {
 
     public static void main(String[] args) {
         
-        Server server1 = new Server(4000);
+        /**
+         * args[0]: Port number for the server to run on
+         */
+        Server server1 = new Server(Integer.parseInt(args[0]));
         server1.start();
     }
 }
