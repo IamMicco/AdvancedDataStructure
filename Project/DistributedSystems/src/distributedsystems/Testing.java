@@ -7,8 +7,9 @@ public class Testing {
 
     private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    public static void main(String[] args) {
-        
+
+    public static void setupLogger () {
+
         LogManager.getLogManager().reset();
         logr.setLevel(Level.ALL);
         
@@ -18,17 +19,19 @@ public class Testing {
 
         try {
             
-            FileHandler fh = new FileHandler("myLogger.log");
-            // fh.setFormatter(new SimpleFormatter());
+            FileHandler fh = new FileHandler("myLogger.log", true);
+            fh.setFormatter(new SimpleFormatter());
             fh.setLevel(Level.FINE);
             logr.addHandler(fh);
         } catch (IOException e) {
             
             logr.log(Level.SEVERE, "File logger not working.", e);
         }
-        
-
 
         logr.info("My first log");
+    }
+    public static void main(String[] args) {
+        
+        setupLogger();
     }
 }
