@@ -5,7 +5,7 @@ import java.util.logging.*;
 
 public class Testing {
 
-    private final static Logger logr = Logger.getLogger("Testing");
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public static void main(String[] args) {
         
