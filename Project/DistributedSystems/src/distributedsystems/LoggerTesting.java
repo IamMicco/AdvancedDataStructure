@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.logging.*;
 
-public class Testing {
+public class LoggerTesting {
 
     private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
