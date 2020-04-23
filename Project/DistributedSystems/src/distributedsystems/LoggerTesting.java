@@ -15,6 +15,20 @@ public class LoggerTesting {
         logr.setLevel(Level.ALL);
         
         ConsoleHandler ch = new ConsoleHandler();
+        ch.setFormatter(new SimpleFormatter() {
+
+            private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %n";
+
+            @Override
+            public synchronized String format(LogRecord lr) {
+
+                return String.format(format, 
+                        new Date(lr.getMillis()),
+                        lr.getLevel().getLocalizedName(),
+                        lr.getMessage(),
+                        2345);
+            }
+        });
         ch.setLevel(Level.INFO);
         logr.addHandler(ch);
 
