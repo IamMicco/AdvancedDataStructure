@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package distributedsystems;
 
 /**
@@ -11,5 +6,41 @@ package distributedsystems;
  */
 public class Node {
     
+    public static byte[] buffer;
     
+    public static void b (String word) {
+        
+        buffer = word.getBytes();
+        for (int i = 0; i < buffer.length; i++) {
+            
+            System.out.println(buffer[i]);
+        }
+    }
+    
+    public static class Ball {
+        
+        public static String name;
+        
+        
+    }
+    
+    public static void p (String word) {
+        
+        Ball.name = word;
+        System.out.println(Ball.name);
+    }
+    
+    public static void p () {
+        
+        System.out.println(Ball.name);
+    }
+    
+    public static void main (String[] args) {
+        
+        //b("Hello");
+        Node n = new Node();
+        Node h = new Node();
+        n.p("Hello");
+        h.p();
+    }
 }
