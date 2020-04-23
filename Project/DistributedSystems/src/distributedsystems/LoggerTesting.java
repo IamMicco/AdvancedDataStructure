@@ -23,7 +23,7 @@ public class LoggerTesting {
             FileHandler fh = new FileHandler("myLogger.log", true);
             fh.setFormatter(new SimpleFormatter() {
 
-                private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %4$d %n";
+                private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %n";
 
                 @Override
                 public synchronized String format(LogRecord lr) {
