@@ -76,7 +76,7 @@ public class Server {
                             new Date(lr.getMillis()),
                             lr.getLevel().getLocalizedName(),
                             lr.getMessage(),
-                            1289);
+                            PORT);
                 }
             });
             fh.setLevel(Level.FINE);
