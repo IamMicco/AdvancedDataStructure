@@ -7,6 +7,7 @@ package distributedsystems;
 public class Node {
     
     public static byte[] buffer;
+    public String name = "Server1";
     
     public static void b (String word) {
         
@@ -42,5 +43,6 @@ public class Node {
         Node h = new Node();
         n.p("Hello");
         h.p();
+        System.out.println(String.format("%s.log", n.name));
     }
 }
