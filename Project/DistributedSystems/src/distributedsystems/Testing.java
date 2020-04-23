@@ -1,6 +1,7 @@
 package distributedsystems;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.logging.*;
 
 public class Testing {
@@ -20,7 +21,19 @@ public class Testing {
         try {
             
             FileHandler fh = new FileHandler("myLogger.log", true);
-            fh.setFormatter(new SimpleFormatter());
+            fh.setFormatter(new SimpleFormatter() {
+
+                private static final String format = "[%1$tF %1$tT] [%2$-7s] %3$s %n";
+
+                @Override
+                public synchronized String format(LogRecord lr) {
+
+                    return String.format(format, 
+                            new Date(lr.getMillis()),
+                            lr.getLevel().getLocalizedName(),
+                            lr.getMessage());
+                }
+            });
             fh.setLevel(Level.FINE);
             logr.addHandler(fh);
         } catch (IOException e) {
