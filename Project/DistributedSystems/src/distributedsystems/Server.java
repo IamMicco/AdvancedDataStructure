@@ -48,6 +48,7 @@ public class Server {
 
     public void update() {
 
+        
     }
 
     public void commit() {
@@ -152,11 +153,12 @@ public class Server {
             final ServerSocket serverSock = new ServerSocket(this.PORT);
 
             Socket sock = null;
-            ClientThread thread = null;
+            Thread thread = null;
             while (true) {
 
                 sock = serverSock.accept();
-                thread = new ClientThread(sock);
+                if (servers.contains(sock.getPort())) thread = new ServerThread(sock);
+                else thread = new ClientThread(sock);
                 thread.start();
             }
         } catch (Exception e) {
