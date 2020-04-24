@@ -6,8 +6,6 @@ public class Linked_List implements java.io.Serializable {
     private Node currentNode = null;
     private int size = 0;
 
-    Linked_List () {}
-
     public class Node implements java.io.Serializable {
 
         public int value;

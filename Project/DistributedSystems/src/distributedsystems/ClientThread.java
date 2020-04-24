@@ -44,8 +44,8 @@ public class ClientThread extends Thread {
                     for (int i = 0; i < listArr.length; i++) {
 
                         if (i == 0) System.out.println(String.format("[%d, ", listArr[i]));
-                        else if (i == (listArr.length - 1)) System.out.println(String.format("%d]", listArr[i]));
-                        else System.out.print(String.format("%d\n, ", listArr[i]));
+                        else if (i == (listArr.length - 1)) System.out.println(String.format("%d]\n", listArr[i]));
+                        else System.out.print(String.format("%d, ", listArr[i]));
                     }
                 } else if (msg.message.equalsIgnoreCase("commit")) {
 
@@ -75,6 +75,7 @@ public class ClientThread extends Thread {
 
                         out.close();
                         file.close();
+                        
                     } catch (IOException e) {}
                 }
                 
