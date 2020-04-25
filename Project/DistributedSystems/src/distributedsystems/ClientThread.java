@@ -36,6 +36,8 @@ public class ClientThread extends Thread {
                     System.out.println("Enter data to add: ");
                     msg = (Message) input.readObject();
                     Server.list.append(Integer.parseInt(msg.message));
+                    msg.instruction = "append";
+                    setServerConnect(msg);
                 } else if (msg.message.equalsIgnoreCase("view")) {
 
                     System.out.println("Here is the list of inputs entered: ");
@@ -74,6 +76,8 @@ public class ClientThread extends Thread {
 
                         out.close();
                         file.close();
+                        msg.instruction = "commit";
+                        setServerConnect(msg);
                         
                     } catch (IOException e) {}
                 } else if (msg.message.equalsIgnoreCase("revert")) {
@@ -89,6 +93,8 @@ public class ClientThread extends Thread {
 
                         in.close();
                         file.close();
+                        msg.instruction = "revert";
+                        setServerConnect(msg);
 
                     } catch (FileNotFoundException e) {
 
@@ -112,11 +118,12 @@ public class ClientThread extends Thread {
         }
     }
 
-    public void serverConnect(String message) {
+    public void setServerConnect(Message msg) {
 
-        for (int server : DNSServer.servers) {
+        Server.setDNSConnection(Server.PORT);
+        for (int server : Server.servers) {
 
-            if (server != socket.getPort()) {
+            if (server != Server.PORT) {
 
                 try {
 
@@ -125,14 +132,12 @@ public class ClientThread extends Thread {
                     final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
                     final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
 
-                    Message msg = null, resp = null;
-                    do {
-                        
-                        msg = new Message(message);
-                        output.writeObject(msg);
-                        resp = (Message)input.readObject();
-                        System.out.println(String.format("\nServer says: %s\n", resp.message));
-                    } while (!msg.message.toUpperCase().equals("EXIT"));
+                    Message resp = null;
+
+                    output.writeObject(msg);
+                    resp = (Message)input.readObject();
+                    System.out.println(String.format("\nServer says: %s\n", resp.message));
+                    
                     sock.close();
                 } catch (UnknownHostException e) {
 

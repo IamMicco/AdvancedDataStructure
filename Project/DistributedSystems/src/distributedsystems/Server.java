@@ -8,8 +8,8 @@ import java.util.logging.*;
 public class Server {
 
     private String serverName;
-    public final int PORT;
-    private static HashSet<Integer> servers;
+    public static int PORT;
+    public static HashSet<Integer> servers;
     private HashSet<Integer> clients;
     public static Linked_List list;
     private boolean active;
@@ -35,7 +35,7 @@ public class Server {
         return this.active;
     }
 
-    private void setDNSConnection (int serverPort) {
+    public static void setDNSConnection (int serverPort) {
 
         try {
 
@@ -52,7 +52,7 @@ public class Server {
             HashSet<Integer> resp = (HashSet<Integer>) input.readObject();
             servers = resp;
             System.out.println("Transfer from DNS Server conplete");
-            System.out.println(servers);
+            // System.out.println(servers);
             
         } catch (IOException e) {
             
@@ -117,13 +117,14 @@ public class Server {
 
         try {
 
-            final ServerSocket serverSock = new ServerSocket(this.PORT);
+            final ServerSocket serverSock = new ServerSocket(PORT);
 
             Socket sock = null;
             Thread thread = null;
             while (true) {
 
                 sock = serverSock.accept();
+                setDNSConnection(PORT);
                 if (servers.contains(sock.getPort())) thread = new ServerThread(sock);
                 else thread = new ClientThread(sock);
                 thread.start();
