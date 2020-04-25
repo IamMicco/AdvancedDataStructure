@@ -30,6 +30,7 @@ public class ServerThread extends Thread {
             do {
                 
                 msg = (Message)input.readObject();
+                System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
                 if (msg.instruction.equalsIgnoreCase("append")) {
 
                     msg = (Message) input.readObject();

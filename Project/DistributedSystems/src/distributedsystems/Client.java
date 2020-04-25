@@ -32,7 +32,7 @@ public class Client {
         
         try {
             /**
-             * args[0]: Enter 0 to DistributedSystems.servers.size - 1 to pick from the list of online servers to connect to
+             * args[0]: Enter server port number
              */
             int serverPort = Integer.parseInt(args[0]);
             final Socket sock = new Socket(Config.ipAddress, serverPort);  
@@ -44,11 +44,32 @@ public class Client {
             Message msg = null, resp = null;
             do {
                 
-                msg = new Message(readSomeText());
+                
+                msg = new Message();
+                msg.instruction = readSomeText();
                 output.writeObject(msg);
-                resp = (Message)input.readObject();
-                System.out.println(String.format("\nServer says: %s\n", resp.message));
-            } while (!msg.message.toUpperCase().equals("EXIT"));
+                System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
+                if (msg.instruction.equalsIgnoreCase("view")) {
+
+                    Linked_List list = (Linked_List) input.readObject();
+                    int[] listArr = list.displayList();
+                    for (int i = 0; i < listArr.length; i++) {
+
+                        if (i == 0) System.out.println(String.format("[%d, ", listArr[i]));
+                        else if (i == (listArr.length - 1)) System.out.print(String.format("%d]\n", listArr[i]));
+                        else System.out.print(String.format("%d, ", listArr[i]));
+                    }
+                } else if (msg.instruction.equalsIgnoreCase("append")) {
+
+                    resp = (Message)input.readObject();
+                    System.out.println(String.format("\n%s\n", resp.message));
+                    msg = new Message();
+                    msg.message = readSomeText();
+                    msg.instruction = "null";
+                    output.writeObject(msg);
+                }
+                
+            } while (!msg.instruction.toUpperCase().equals("EXIT"));
 
             sock.close();
 

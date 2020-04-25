@@ -31,24 +31,18 @@ public class ClientThread extends Thread {
             do {
                 
                 msg = (Message)input.readObject();
-                if (msg.message.equalsIgnoreCase("append")) {
+                if (msg.instruction.equalsIgnoreCase("append")) {
 
-                    System.out.println("Enter data to add: ");
+                    output.writeObject(new Message("Enter data to add: "));
                     msg = (Message) input.readObject();
                     Server.list.append(Integer.parseInt(msg.message));
                     msg.instruction = "append";
                     setServerConnect(msg);
-                } else if (msg.message.equalsIgnoreCase("view")) {
+                    System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
+                } else if (msg.instruction.equalsIgnoreCase("view")) {
 
-                    System.out.println("Here is the list of inputs entered: ");
-                    int[] listArr = Server.list.displayList();
-                    for (int i = 0; i < listArr.length; i++) {
-
-                        if (i == 0) System.out.println(String.format("[%d, ", listArr[i]));
-                        else if (i == (listArr.length - 1)) System.out.println(String.format("%d]\n", listArr[i]));
-                        else System.out.print(String.format("%d, ", listArr[i]));
-                    }
-                } else if (msg.message.equalsIgnoreCase("commit")) {
+                    output.writeObject(Server.list);   
+                } else if (msg.instruction.equalsIgnoreCase("commit")) {
 
                     try {
                         
@@ -80,7 +74,7 @@ public class ClientThread extends Thread {
                         setServerConnect(msg);
                         
                     } catch (IOException e) {}
-                } else if (msg.message.equalsIgnoreCase("revert")) {
+                } else if (msg.instruction.equalsIgnoreCase("revert")) {
 
                     try {
                         
@@ -102,7 +96,7 @@ public class ClientThread extends Thread {
                     }
                 }
                 
-                System.out.println(String.format("[%d:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
+                System.out.println(String.format("[%s:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
 
                 count++;
                 output.writeObject(new Message(String.format("Recieved message #%s", count)));

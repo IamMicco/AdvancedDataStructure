@@ -143,7 +143,8 @@ public class Server {
          * args[1]: Enter server name for logfile name entry
          */
         Server server1 = new Server(Integer.parseInt(args[0]));
-        server1.setName(args[1]);
+        // server1.setName(args[1]);
+        System.out.println(servers);
         server1.start();
     }
 }
