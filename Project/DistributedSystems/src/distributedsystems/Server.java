@@ -1,30 +1,28 @@
 package distributedsystems;
 
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Date;
+import java.net.*;
+import java.io.*;
+import java.util.*;
 import java.util.logging.*;
 
 public class Server {
 
     private String serverName;
-    private final int PORT;
-    private static ArrayList<Integer> servers = new ArrayList<>();
-    private ArrayList<Integer> clients;
+    public final int PORT;
+    private static HashSet<Integer> servers;
+    private HashSet<Integer> clients;
+    public static Linked_List list;
     private boolean active;
     private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     public Server(int port) {
 
         PORT = port;
-        servers.add(PORT);
+        setDNSConnection(PORT);
         active = false;
-        clients = new ArrayList<>();
+        list = new Linked_List();
+        clients = new HashSet<>();
+        // System.out.println(servers.size());
     }
 
     public void setName(String _name) {
@@ -32,65 +30,36 @@ public class Server {
         this.serverName = _name;
     }
 
-    public int getPortNumber() {
-
-        return this.PORT;
-    }
-
     public boolean checkIfActive() {
 
         return this.active;
     }
 
-    public void broadCastStatus() {
+    private void setDNSConnection (int serverPort) {
 
-    }
+        try {
 
-    public void update() {
+            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
 
-        
-    }
+            final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
+            final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
 
-    public void commit() {
+            Message msg = null;
 
-    }
-
-    public void rollback() {
-
-    }
-
-    public void serverConnect(String message) {
-
-        for (int server : servers) {
-
-            if (server != PORT) {
-
-                try {
-
-                    final Socket sock = new Socket(Config.ipAddress, server);
-
-                    final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
-                    final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
-
-                    Message msg = null, resp = null;
-                    do {
-                        
-                        msg = new Message(message);
-                        output.writeObject(msg);
-                        resp = (Message)input.readObject();
-                        System.out.println(String.format("\nServer says: %s\n", resp.message));
-                    } while (!msg.message.toUpperCase().equals("EXIT"));
-                } catch (UnknownHostException e) {
-
-                    e.printStackTrace();
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-
-                    e.printStackTrace();
-                }
-            }
+            msg = new Message(String.format("%d", PORT));
+            output.writeObject(msg);
+            @SuppressWarnings("unchecked")
+            HashSet<Integer> resp = (HashSet<Integer>) input.readObject();
+            servers = resp;
+            System.out.println("Transfer from DNS Server conplete");
+            System.out.println(servers);
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            
+            e.printStackTrace();
         }
     }
 
@@ -143,8 +112,6 @@ public class Server {
 
         logr.info(logType);
     }
-
-
 
     public void start () {
 

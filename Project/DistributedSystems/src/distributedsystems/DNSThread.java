@@ -3,11 +3,11 @@ package distributedsystems;
 import java.io.*;
 import java.net.Socket;
 
-public class ServerThread extends Thread {
+public class DNSThread extends Thread {
 
     private final Socket socket;
 
-    public ServerThread (Socket _socket) {
+    public DNSThread (Socket _socket) {
 
         socket = _socket;
     }
@@ -22,17 +22,10 @@ public class ServerThread extends Thread {
             final ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 
             Message msg = null;
-            int count = 0;
 
-            do {
-                
-                msg = (Message)input.readObject();
-                System.out.println(String.format("[%d:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
-
-                count++;
-                output.writeObject(new Message(String.format("Recieved message #%s", count)));
-
-            } while (!msg.message.toUpperCase().equals("EXIT"));
+            msg = (Message)input.readObject();
+            DNSServer.servers.add(Integer.parseInt(msg.message));
+            output.writeObject(DNSServer.servers);
 
             System.out.println(String.format("** Closing connection with %s: %d **", socket.getInetAddress(), socket.getPort()));
             socket.close();

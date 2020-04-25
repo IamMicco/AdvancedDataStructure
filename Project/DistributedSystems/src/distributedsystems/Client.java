@@ -32,12 +32,11 @@ public class Client {
         
         try {
             /**
-             * args[0]: IP Address (localhost would work fine)
-             * args[1]: Enter 0 to DistributedSystems.servers.size - 1 to pick from the list of online servers to connect to
+             * args[0]: Enter 0 to DistributedSystems.servers.size - 1 to pick from the list of online servers to connect to
              */
-            int serverPort = DistributedSystems.servers.get(Integer.parseInt(args[1]));
-            final Socket sock = new Socket(args[0], serverPort);  
-            System.out.println(String.format("Connected to %s on port %d", args[0], serverPort));
+            int serverPort = Integer.parseInt(args[0]);
+            final Socket sock = new Socket(Config.ipAddress, serverPort);  
+            System.out.println(String.format("Connected to %s on port %d", Config.ipAddress, serverPort));
 
             final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
             final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());

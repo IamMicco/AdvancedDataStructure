@@ -2,18 +2,17 @@ package distributedsystems;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ClientThread extends Thread {
 
     private final Socket socket;
-    private Linked_List list;
     private String commitFileName = "commit.txt";
     VersionControl versionControl;
 
     public ClientThread (Socket _socket) {
 
         socket = _socket;
-        list = new Linked_List();
         versionControl = new VersionControl();
     }
 
@@ -36,11 +35,11 @@ public class ClientThread extends Thread {
 
                     System.out.println("Enter data to add: ");
                     msg = (Message) input.readObject();
-                    list.append(Integer.parseInt(msg.message));
+                    Server.list.append(Integer.parseInt(msg.message));
                 } else if (msg.message.equalsIgnoreCase("view")) {
 
                     System.out.println("Here is the list of inputs entered: ");
-                    int[] listArr = list.displayList();
+                    int[] listArr = Server.list.displayList();
                     for (int i = 0; i < listArr.length; i++) {
 
                         if (i == 0) System.out.println(String.format("[%d, ", listArr[i]));
@@ -56,14 +55,14 @@ public class ClientThread extends Thread {
 
                         versionControl = (VersionControl) in.readObject(); 
                         versionControl.setPreviousVersion(versionControl.getLatestVersion());
-                        versionControl.setLatestVersion(list);
+                        versionControl.setLatestVersion(Server.list);
 
                         in.close();
                         file.close();
 
                     } catch (FileNotFoundException e) {
 
-                        versionControl.setLatestVersion(list);
+                        versionControl.setLatestVersion(Server.list);
                     }
 
                     try {
@@ -77,6 +76,24 @@ public class ClientThread extends Thread {
                         file.close();
                         
                     } catch (IOException e) {}
+                } else if (msg.message.equalsIgnoreCase("revert")) {
+
+                    try {
+                        
+                        FileInputStream file = new FileInputStream(commitFileName);
+                        ObjectInputStream in = new ObjectInputStream(file);
+
+                        versionControl = (VersionControl) in.readObject(); 
+                        versionControl.setLatestVersion(versionControl.getPreviousVersion());
+                        versionControl.setPreviousVersion(null);
+
+                        in.close();
+                        file.close();
+
+                    } catch (FileNotFoundException e) {
+
+                        versionControl.setLatestVersion(Server.list);
+                    }
                 }
                 
                 System.out.println(String.format("[%d:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
@@ -86,12 +103,48 @@ public class ClientThread extends Thread {
 
             } while (!msg.message.toUpperCase().equals("EXIT"));
 
-            System.out.println(String.format("** Closing connection with %d: %d **", socket.getInetAddress(), socket.getPort()));
+            System.out.println(String.format("** Closing connection with %s: %d **", socket.getInetAddress(), socket.getPort()));
             socket.close();
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace(System.err);
+        }
+    }
+
+    public void serverConnect(String message) {
+
+        for (int server : DNSServer.servers) {
+
+            if (server != socket.getPort()) {
+
+                try {
+
+                    final Socket sock = new Socket(Config.ipAddress, server);
+
+                    final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
+                    final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
+
+                    Message msg = null, resp = null;
+                    do {
+                        
+                        msg = new Message(message);
+                        output.writeObject(msg);
+                        resp = (Message)input.readObject();
+                        System.out.println(String.format("\nServer says: %s\n", resp.message));
+                    } while (!msg.message.toUpperCase().equals("EXIT"));
+                    sock.close();
+                } catch (UnknownHostException e) {
+
+                    e.printStackTrace();
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
