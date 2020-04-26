@@ -26,7 +26,6 @@ public class ClientThread extends Thread {
             final ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 
             Message msg = null;
-            int count = 0;
 
             do {
                 
@@ -98,10 +97,7 @@ public class ClientThread extends Thread {
                 
                 System.out.println(String.format("[%s:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
 
-                count++;
-                output.writeObject(new Message(String.format("Recieved message #%s", count)));
-
-            } while (!msg.message.toUpperCase().equals("EXIT"));
+            } while (!msg.instruction.toUpperCase().equals("EXIT"));
 
             System.out.println(String.format("** Closing connection with %s: %d **", socket.getInetAddress(), socket.getPort()));
             socket.close();

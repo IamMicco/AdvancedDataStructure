@@ -125,8 +125,17 @@ public class Server {
 
                 sock = serverSock.accept();
                 setDNSConnection(PORT);
-                if (servers.contains(sock.getPort())) thread = new ServerThread(sock);
-                else thread = new ClientThread(sock);
+                if (servers.contains(sock.getPort())) {
+                    
+                    System.out.println("Went the Server route");
+                    thread = new ServerThread(sock);
+                }
+                else {
+                    
+                    System.out.println("Went the Client route");
+                    System.out.println(String.format("Port: %d", sock.getPort()));
+                    thread = new ClientThread(sock);
+                }
                 thread.start();
             }
         } catch (Exception e) {
