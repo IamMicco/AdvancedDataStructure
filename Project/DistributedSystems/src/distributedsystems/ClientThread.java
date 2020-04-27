@@ -110,7 +110,7 @@ public class ClientThread extends Thread {
 
     public void setServerConnect(Message msg) {
 
-        Server.setDNSConnection(Server.PORT);
+        Server.setDNSConnection();
         for (int server : Server.servers) {
 
             if (server != Server.PORT) {

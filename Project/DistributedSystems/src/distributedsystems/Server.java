@@ -18,7 +18,7 @@ public class Server {
     public Server(int port) {
 
         PORT = port;
-        setDNSConnection(PORT);
+        setDNSConnection();
         active = false;
         list = new Linked_List();
         clients = new HashSet<>();
@@ -35,7 +35,7 @@ public class Server {
         return this.active;
     }
 
-    public static void setDNSConnection (int serverPort) {
+    public static void setDNSConnection () {
 
         try {
 
@@ -51,7 +51,7 @@ public class Server {
             @SuppressWarnings("unchecked")
             HashSet<Integer> resp = (HashSet<Integer>) input.readObject();
             servers = resp;
-            System.out.println("Transfer from DNS Server conplete");
+            System.out.println("Transfer from DNS Server complete");
             // System.out.println(servers);
             
         } catch (IOException e) {
@@ -124,7 +124,7 @@ public class Server {
             while (true) {
 
                 sock = serverSock.accept();
-                setDNSConnection(PORT);
+                setDNSConnection();
                 if (servers.contains(sock.getPort())) {
                     
                     System.out.println("Went the Server route");
