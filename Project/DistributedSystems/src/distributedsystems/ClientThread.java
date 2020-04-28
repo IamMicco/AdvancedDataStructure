@@ -90,6 +90,7 @@ public class ClientThread extends Thread {
                         in.close();
                         file.close();
                         Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                        setServerConnect(msg);
 
                     } catch (FileNotFoundException e) {
 
@@ -116,6 +117,14 @@ public class ClientThread extends Thread {
 
                         versionControl.setLatestVersion(Server.list);
                     }
+                } else if (msg.instruction.equalsIgnoreCase("delete")) {
+
+                    output.writeObject(new Message("Enter data to add: "));
+                    msg = (Message) input.readObject();
+                    Server.list.remove(Integer.parseInt(msg.message));
+                    msg.instruction = "delete";
+                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                    setServerConnect(msg);
                 }
                 
                 System.out.println(String.format("[%s:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
