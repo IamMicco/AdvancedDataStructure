@@ -37,6 +37,7 @@ public class Client {
             int serverPort = Integer.parseInt(args[0]);
             final Socket sock = new Socket(Config.ipAddress, serverPort);  
             System.out.println(String.format("Connected to %s on port %d", Config.ipAddress, serverPort));
+            System.out.println(String.format("Local Port is: %d", sock.getLocalPort()));
 
             final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
             final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
@@ -44,11 +45,6 @@ public class Client {
             Message msg = null, resp = null;
             do {
                 
-                System.out.println("Enter 'append' to add value.");
-                System.out.println("Enter 'view' to view list.");
-                System.out.println("Enter 'commit' to save to storage.");
-                System.out.println("Enter 'pull' to retreive from storage.");
-                System.out.println("Enter 'revert' to go to previous version.");
                 
                 msg = new Message();
                 msg.instruction = readSomeText();

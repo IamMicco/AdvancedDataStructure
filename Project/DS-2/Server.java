@@ -7,9 +7,11 @@ import java.util.logging.*;
 
 public class Server {
 
-    private static String serverName;
+    private String serverName;
     public static int PORT;
     public static HashSet<Integer> servers;
+    public static HashMap<Integer, PortDirectory> serverDirectory;
+    public static PortDirectory directory;
     private HashSet<Integer> clients;
     public static Linked_List list;
     private boolean active;
@@ -22,6 +24,8 @@ public class Server {
         active = false;
         list = new Linked_List();
         clients = new HashSet<>();
+        directory = new PortDirectory();
+        directory.setPort(PORT);
         // System.out.println(servers.size());
     }
 
@@ -45,12 +49,15 @@ public class Server {
             final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
 
             Message msg = null;
-
-            msg = new Message(String.format("%d", PORT));
-            output.writeObject(msg);
+            directory.setDNSPort(sock.getLocalPort());
+            // msg = new Message(directory);
+            output.writeObject(Server.directory);
             @SuppressWarnings("unchecked")
             HashSet<Integer> resp = (HashSet<Integer>) input.readObject();
+            @SuppressWarnings("unchecked")
+            HashMap<Integer, PortDirectory> resp2 = (HashMap<Integer, PortDirectory>) input.readObject();
             servers = resp;
+            serverDirectory = resp2;
             System.out.println("Transfer from DNS Server complete");
             // System.out.println(servers);
             
@@ -63,7 +70,7 @@ public class Server {
         }
     }
 
-    public static void log (String logType, InetAddress inetAddress, int port) {
+    public void log (String logType) {
 
         LogManager.getLogManager().reset();
         logr.setLevel(Level.ALL);
@@ -71,7 +78,7 @@ public class Server {
         ConsoleHandler ch = new ConsoleHandler();
         ch.setFormatter(new SimpleFormatter() {
 
-            private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %5$s %n";
+            private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %n";
 
             @Override
             public synchronized String format(LogRecord lr) {
@@ -80,8 +87,7 @@ public class Server {
                         new Date(lr.getMillis()),
                         lr.getLevel().getLocalizedName(),
                         lr.getMessage(),
-                        port,
-                        inetAddress);
+                        PORT);
             }
         });
         ch.setLevel(Level.INFO);
@@ -89,10 +95,10 @@ public class Server {
 
         try {
             
-            FileHandler fh = new FileHandler(String.format("%s.log", serverName), true);
+            FileHandler fh = new FileHandler(String.format("%s.log", this.serverName), true);
             fh.setFormatter(new SimpleFormatter() {
 
-                private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %5$s %n";
+                private static final String format = "[%1$tF %1$tT] [%2$-4s] %3$s %4$d %n";
 
                 @Override
                 public synchronized String format(LogRecord lr) {
@@ -101,8 +107,7 @@ public class Server {
                             new Date(lr.getMillis()),
                             lr.getLevel().getLocalizedName(),
                             lr.getMessage(),
-                            port,
-                            inetAddress);
+                            PORT);
                 }
             });
             fh.setLevel(Level.FINE);
@@ -115,6 +120,15 @@ public class Server {
         logr.info(logType);
     }
 
+    public void pause (int seconds) {
+
+        long time = seconds * 1000;
+        long currTime = System.currentTimeMillis();
+        do {
+            
+        } while ((currTime + time) <= System.currentTimeMillis());
+    }
+
     public void start () {
 
         try {
@@ -123,11 +137,19 @@ public class Server {
 
             Socket sock = null;
             Thread thread = null;
+            int SP = -1;
             while (true) {
 
                 sock = serverSock.accept();
                 setDNSConnection();
-                if (servers.contains(sock.getPort())) {
+                pause(2);
+                for (int port : servers) {
+
+                    if (serverDirectory.containsKey(port)) SP = serverDirectory.get(port).getServerPort();
+                    System.out.println(String.format("SP is: %d", SP));
+                }
+                System.out.println(String.format("Requesting port is: %d", sock.getPort()));
+                if (SP != -1) {
                     
                     System.out.println("Went the Server route");
                     thread = new ServerThread(sock);
@@ -154,7 +176,7 @@ public class Server {
          * args[1]: Enter server name for logfile name entry
          */
         Server server1 = new Server(Integer.parseInt(args[0]));
-        server1.setName(args[1]);
+        // server1.setName(args[1]);
         System.out.println(servers);
         server1.start();
     }

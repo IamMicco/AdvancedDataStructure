@@ -3,6 +3,8 @@ package distributedsystems;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ClientThread extends Thread {
 
@@ -36,14 +38,11 @@ public class ClientThread extends Thread {
                     msg = (Message) input.readObject();
                     Server.list.append(Integer.parseInt(msg.message));
                     msg.instruction = "append";
-                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
                     setServerConnect(msg);
                     System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
-
                 } else if (msg.instruction.equalsIgnoreCase("view")) {
 
-                    output.writeObject(Server.list);
-                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                    output.writeObject(Server.list);   
                 } else if (msg.instruction.equalsIgnoreCase("commit")) {
 
                     try {
@@ -73,28 +72,9 @@ public class ClientThread extends Thread {
                         out.close();
                         file.close();
                         msg.instruction = "commit";
-                        Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
                         setServerConnect(msg);
                         
                     } catch (IOException e) {}
-                } else if (msg.instruction.equalsIgnoreCase("pull")) {
-
-                    try {
-                        
-                        FileInputStream file = new FileInputStream(commitFileName);
-                        ObjectInputStream in = new ObjectInputStream(file);
-
-                        versionControl = (VersionControl) in.readObject(); 
-                        Server.list = versionControl.getLatestVersion();
-
-                        in.close();
-                        file.close();
-                        Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-
-                    } catch (FileNotFoundException e) {
-
-                        System.out.println("No data to pull from storage");
-                    }
                 } else if (msg.instruction.equalsIgnoreCase("revert")) {
 
                     try {
@@ -109,7 +89,6 @@ public class ClientThread extends Thread {
                         in.close();
                         file.close();
                         msg.instruction = "revert";
-                        Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
                         setServerConnect(msg);
 
                     } catch (FileNotFoundException e) {
@@ -131,17 +110,28 @@ public class ClientThread extends Thread {
         }
     }
 
+    public ArrayList<Integer> deepCopy (ArrayList<Integer> arrList, HashSet<Integer> hashSet) {
+
+        for (int hash : hashSet) {
+
+            arrList.add(hash);
+        }
+        return arrList;
+    }
+
     public void setServerConnect(Message msg) {
 
         Server.setDNSConnection();
-        for (int server : Server.servers) {
+        ArrayList<Integer> listOfServers = deepCopy(new ArrayList<>(), Server.servers);
+        for (int server : listOfServers) {
 
             if (server != Server.PORT) {
 
                 try {
 
                     final Socket sock = new Socket(Config.ipAddress, server);
-
+                    Server.directory.setServerPort(sock.getLocalPort());
+                    Server.setDNSConnection();
                     final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
                     final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
 
