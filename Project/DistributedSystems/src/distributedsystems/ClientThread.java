@@ -8,7 +8,7 @@ public class ClientThread extends Thread {
 
     private final Socket socket;
     private String commitFileName = "commit.txt";
-    VersionControl versionControl;
+    private VersionControl versionControl;
 
     public ClientThread (Socket _socket) {
 
@@ -119,7 +119,7 @@ public class ClientThread extends Thread {
                     }
                 } else if (msg.instruction.equalsIgnoreCase("delete")) {
 
-                    output.writeObject(new Message("Enter data to add: "));
+                    output.writeObject(new Message("Enter data to delete: "));
                     msg = (Message) input.readObject();
                     Server.list.remove(Integer.parseInt(msg.message));
                     msg.instruction = "delete";

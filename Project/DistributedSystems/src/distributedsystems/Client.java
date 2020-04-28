@@ -23,7 +23,7 @@ public class Client {
 
     public static void main(String[] args) {
 
-        if (args.length != 1) {
+        if (args.length < 1) {
 
             System.err.println("Not enough arguments.\n");
             System.err.println("Usage: Distrbuted Systems Client <Server name or IP\n");
@@ -43,12 +43,13 @@ public class Client {
             
             Message msg = null, resp = null;
             do {
-                
+
                 System.out.println("Enter 'append' to add value.");
                 System.out.println("Enter 'view' to view list.");
                 System.out.println("Enter 'commit' to save to storage.");
                 System.out.println("Enter 'pull' to retreive from storage.");
                 System.out.println("Enter 'revert' to go to previous version.");
+                System.out.println("Enter 'delete' to go to delete value from list.");
                 
                 msg = new Message();
                 msg.instruction = readSomeText();
@@ -65,6 +66,14 @@ public class Client {
                         else System.out.print(String.format("%d, ", listArr[i]));
                     }
                 } else if (msg.instruction.equalsIgnoreCase("append")) {
+
+                    resp = (Message)input.readObject();
+                    System.out.println(String.format("\n%s\n", resp.message));
+                    msg = new Message();
+                    msg.message = readSomeText();
+                    msg.instruction = "null";
+                    output.writeObject(msg);
+                } else if (msg.instruction.equalsIgnoreCase("delete")) {
 
                     resp = (Message)input.readObject();
                     System.out.println(String.format("\n%s\n", resp.message));
