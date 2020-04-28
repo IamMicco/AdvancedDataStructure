@@ -105,6 +105,7 @@ public class ClientThread extends Thread {
 
                         versionControl = (VersionControl) in.readObject(); 
                         versionControl.setLatestVersion(versionControl.getPreviousVersion());
+                        Server.list = versionControl.getLatestVersion();
                         versionControl.setPreviousVersion(null);
 
                         in.close();
