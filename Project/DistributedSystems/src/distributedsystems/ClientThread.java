@@ -136,7 +136,7 @@ public class ClientThread extends Thread {
                         // setServerConnect(msg);
                     }
                 } else {
-
+                    msg.instruction = "null";
                     for (int i = 0; msg.commands.size() > 0;) {
 
                         if (msg.commands.get(i).equalsIgnoreCase("append")) {

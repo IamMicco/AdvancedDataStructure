@@ -88,6 +88,9 @@ public class Client {
                     commands.add(msg.message);
                     msg.instruction = "null";
                     output.writeObject(msg);
+                } else if (msg.instruction.equalsIgnoreCase("revert")) {
+                    
+                    commands.add(msg.instruction);
                 } else if (msg.instruction.equalsIgnoreCase("commit")) {
 
                     commands.add(msg.instruction);
