@@ -2,8 +2,11 @@ package distributedsystems;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client {
+
+    public static ArrayList<String> commands = new ArrayList<>();
 
     private static String readSomeText() {
 
@@ -67,20 +70,29 @@ public class Client {
                     }
                 } else if (msg.instruction.equalsIgnoreCase("append")) {
 
+                    commands.add(msg.instruction);
                     resp = (Message)input.readObject();
                     System.out.println(String.format("\n%s\n", resp.message));
                     msg = new Message();
                     msg.message = readSomeText();
                     msg.instruction = "null";
+                    commands.add(msg.message);
                     output.writeObject(msg);
                 } else if (msg.instruction.equalsIgnoreCase("delete")) {
 
+                    commands.add(msg.instruction);
                     resp = (Message)input.readObject();
                     System.out.println(String.format("\n%s\n", resp.message));
                     msg = new Message();
                     msg.message = readSomeText();
+                    commands.add(msg.message);
                     msg.instruction = "null";
                     output.writeObject(msg);
+                } else if (msg.instruction.equalsIgnoreCase("commit")) {
+
+                    commands.add(msg.instruction);
+                    output.writeObject(commands);
+                    commands = new ArrayList<String>();
                 }
                 
             } while (!msg.instruction.toUpperCase().equals("EXIT"));

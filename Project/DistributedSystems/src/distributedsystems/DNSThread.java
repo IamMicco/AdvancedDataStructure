@@ -24,9 +24,39 @@ public class DNSThread extends Thread {
             Message msg = null;
 
             msg = (Message)input.readObject();
-            DNSServer.servers.add(Integer.parseInt(msg.message));
-            output.writeObject(DNSServer.servers);
+            if (msg.message == null && msg.isServer) {
 
+                for (int port : DNSServer.servers) {
+
+                    if (port != msg.PORT) {
+
+                        try {
+
+                            final Socket sock = new Socket(Config.ipAddress, port);
+                            DNSServer.broadCastPORT = sock.getLocalPort();
+                
+                            final ObjectOutputStream serverOutput = new ObjectOutputStream(sock.getOutputStream());
+                
+                            serverOutput.writeObject(msg.commands);
+                            System.out.println("Command transfer from Server complete");
+                            sock.close();
+                            
+                        } catch (IOException e) {
+                            
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } else if (msg.instruction.equalsIgnoreCase("getsocketport")) { 
+
+                output.writeObject(DNSServer.broadCastPORT);
+            } else {
+
+                DNSServer.servers.add(Integer.parseInt(msg.message));
+                output.writeObject(DNSServer.servers);
+
+            }
+            
             System.out.println(String.format("** Closing connection with %s: %d **", socket.getInetAddress(), socket.getPort()));
             socket.close();
 

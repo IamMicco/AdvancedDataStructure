@@ -27,7 +27,7 @@ public class Server {
 
     public void setName(String _name) {
 
-        this.serverName = _name;
+        serverName = _name;
     }
 
     public boolean checkIfActive() {
@@ -60,6 +60,46 @@ public class Server {
         } catch (ClassNotFoundException e) {
             
             e.printStackTrace();
+        }
+    }
+
+    public static void serverDNSBroadCast (Message msg) {
+
+        try {
+
+            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
+
+            final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
+
+            output.writeObject(msg);
+            System.out.println("Commands transfer from Server to DNS Server complete");
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
+    }
+
+    public static int getDNSBroadcastPort () throws ClassNotFoundException {
+
+        try {
+
+            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
+
+            final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
+            final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
+
+            Message msg = new Message();
+            msg.instruction = "getsocketport";
+            output.writeObject(msg);
+            int DNSLocalPort = (int) input.readObject();
+            System.out.println("Transfer from DNS Server complete");
+            return DNSLocalPort;
+            
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+            return -1;
         }
     }
 
@@ -127,17 +167,20 @@ public class Server {
 
                 sock = serverSock.accept();
                 setDNSConnection();
-                if (servers.contains(sock.getPort())) {
+                // if (servers.contains(sock.getPort())) {
                     
-                    System.out.println("Went the Server route");
-                    thread = new ServerThread(sock);
-                }
-                else {
+                //     System.out.println("Went the Server route");
+                //     thread = new ServerThread(sock);
+                // }
+                // else {
                     
-                    System.out.println("Went the Client route");
-                    System.out.println(String.format("Port: %d", sock.getPort()));
-                    thread = new ClientThread(sock);
-                }
+                //     System.out.println("Went the Client route");
+                //     System.out.println(String.format("Port: %d", sock.getPort()));
+                //     thread = new ClientThread(sock);
+                // }
+                // System.out.println("Went the Client route");
+                System.out.println(String.format("Port: %d", sock.getPort()));
+                thread = new ClientThread(sock);
                 thread.start();
             }
         } catch (Exception e) {

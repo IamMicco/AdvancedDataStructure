@@ -7,6 +7,7 @@ import java.util.HashSet;
 public class DNSServer {
 
     public static HashSet<Integer> servers = new HashSet<>();
+    public static int broadCastPORT;
     private int PORT;
 
     public DNSServer () {

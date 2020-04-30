@@ -3,6 +3,7 @@ package distributedsystems;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class ClientThread extends Thread {
 
@@ -77,6 +78,9 @@ public class ClientThread extends Thread {
                         setServerConnect(msg);
                         
                     } catch (IOException e) {}
+                    @SuppressWarnings("unchecked")
+                    ArrayList<String> commands = (ArrayList<String>) input.readObject();
+                    Server.serverDNSBroadCast(new Message (commands, Server.PORT));
                 } else if (msg.instruction.equalsIgnoreCase("pull")) {
 
                     try {
@@ -104,6 +108,7 @@ public class ClientThread extends Thread {
                         ObjectInputStream in = new ObjectInputStream(file);
 
                         versionControl = (VersionControl) in.readObject(); 
+                        if (versionControl.getPreviousVersion() == null) throw new FileNotFoundException();
                         versionControl.setLatestVersion(versionControl.getPreviousVersion());
                         Server.list = versionControl.getLatestVersion();
                         versionControl.setPreviousVersion(null);
@@ -117,6 +122,7 @@ public class ClientThread extends Thread {
                     } catch (FileNotFoundException e) {
 
                         versionControl.setLatestVersion(Server.list);
+                        System.out.println("No version to return to");
                     }
                 } else if (msg.instruction.equalsIgnoreCase("delete")) {
 
