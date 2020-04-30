@@ -64,9 +64,13 @@ public class Client {
                     int[] listArr = list.displayList();
                     for (int i = 0; i < listArr.length; i++) {
 
-                        if (i == 0) System.out.print(String.format("[%d, ", listArr[i]));
-                        else if (i == (listArr.length - 1)) System.out.print(String.format("%d]\n", listArr[i]));
-                        else System.out.print(String.format("%d, ", listArr[i]));
+                        if (listArr.length == 1) System.out.println(String.format("[%d]", listArr[i]));
+                        else {
+                            
+                            if (i == 0) System.out.print(String.format("[%d, ", listArr[i]));
+                            else if (i == (listArr.length - 1)) System.out.print(String.format("%d]\n", listArr[i]));
+                            else System.out.print(String.format("%d, ", listArr[i]));
+                        }
                     }
                 } else if (msg.instruction.equalsIgnoreCase("append")) {
 
