@@ -7,7 +7,7 @@ import java.util.logging.*;
 
 public class Server {
 
-    private static String serverName;
+    public static String serverName;
     public static int PORT;
     public static HashSet<Integer> servers;
     private HashSet<Integer> clients;

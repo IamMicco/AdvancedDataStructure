@@ -47,10 +47,12 @@ public class DNSThread extends Thread {
                         }
                     }
                 }
-            } else if (msg.instruction.equalsIgnoreCase("getsocketport")) { 
+            } 
+            // else if (msg.instruction.equalsIgnoreCase("getsocketport")) { 
 
-                output.writeObject(DNSServer.broadCastPORT);
-            } else {
+            //     output.writeObject(DNSServer.broadCastPORT);
+            // } 
+            else {
 
                 DNSServer.servers.add(Integer.parseInt(msg.message));
                 output.writeObject(DNSServer.servers);

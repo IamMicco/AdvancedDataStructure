@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ClientThread extends Thread {
 
     private final Socket socket;
-    private String commitFileName = "commit.txt";
+    private String commitFileName = String.format("%s.txt", Server.serverName);
     private VersionControl versionControl;
 
     public ClientThread (Socket _socket) {
@@ -31,107 +31,182 @@ public class ClientThread extends Thread {
             do {
                 
                 msg = (Message)input.readObject();
-                if (msg.instruction.equalsIgnoreCase("append")) {
+                if (msg.commands == null && !msg.isServer) {
 
-                    output.writeObject(new Message("Enter data to add: "));
-                    msg = (Message) input.readObject();
-                    Server.list.append(Integer.parseInt(msg.message));
-                    msg.instruction = "append";
-                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                    setServerConnect(msg);
-                    System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
+                    if (msg.instruction.equalsIgnoreCase("append")) {
 
-                } else if (msg.instruction.equalsIgnoreCase("view")) {
-
-                    output.writeObject(Server.list);
-                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                } else if (msg.instruction.equalsIgnoreCase("commit")) {
-
-                    try {
-                        
-                        FileInputStream file = new FileInputStream(commitFileName);
-                        ObjectInputStream in = new ObjectInputStream(file);
-
-                        versionControl = (VersionControl) in.readObject(); 
-                        versionControl.setPreviousVersion(versionControl.getLatestVersion());
-                        versionControl.setLatestVersion(Server.list);
-
-                        in.close();
-                        file.close();
-
-                    } catch (FileNotFoundException e) {
-
-                        versionControl.setLatestVersion(Server.list);
-                    }
-
-                    try {
-                        
-                        FileOutputStream file = new FileOutputStream(commitFileName);
-                        ObjectOutputStream out = new ObjectOutputStream(file);
-
-                        out.writeObject(versionControl);
-
-                        out.close();
-                        file.close();
-                        msg.instruction = "commit";
+                        output.writeObject(new Message("Enter data to add: "));
+                        msg = (Message) input.readObject();
+                        Server.list.append(Integer.parseInt(msg.message));
+                        msg.instruction = "append";
                         Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
                         setServerConnect(msg);
-                        
-                    } catch (IOException e) {}
-                    @SuppressWarnings("unchecked")
-                    ArrayList<String> commands = (ArrayList<String>) input.readObject();
-                    Server.serverDNSBroadCast(new Message (commands, Server.PORT));
-                } else if (msg.instruction.equalsIgnoreCase("pull")) {
+                        System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
 
-                    try {
-                        
-                        FileInputStream file = new FileInputStream(commitFileName);
-                        ObjectInputStream in = new ObjectInputStream(file);
+                    } else if (msg.instruction.equalsIgnoreCase("view")) {
 
-                        versionControl = (VersionControl) in.readObject(); 
-                        Server.list = versionControl.getLatestVersion();
+                        output.writeObject(Server.list);
+                        Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                    } else if (msg.instruction.equalsIgnoreCase("commit")) {
 
-                        in.close();
-                        file.close();
+                        try {
+                            
+                            FileInputStream file = new FileInputStream(commitFileName);
+                            ObjectInputStream in = new ObjectInputStream(file);
+
+                            versionControl = (VersionControl) in.readObject(); 
+                            versionControl.setPreviousVersion(versionControl.getLatestVersion());
+                            versionControl.setLatestVersion(Server.list);
+
+                            in.close();
+                            file.close();
+
+                        } catch (FileNotFoundException e) {
+
+                            versionControl.setLatestVersion(Server.list);
+                        }
+
+                        try {
+                            
+                            FileOutputStream file = new FileOutputStream(commitFileName);
+                            ObjectOutputStream out = new ObjectOutputStream(file);
+
+                            out.writeObject(versionControl);
+
+                            out.close();
+                            file.close();
+                            msg.instruction = "commit";
+                            Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                            setServerConnect(msg);
+                            
+                        } catch (IOException e) {}
+                        @SuppressWarnings("unchecked")
+                        ArrayList<String> commands = (ArrayList<String>) input.readObject();
+                        Server.serverDNSBroadCast(new Message (commands, Server.PORT));
+                    } else if (msg.instruction.equalsIgnoreCase("pull")) {
+
+                        try {
+                            
+                            FileInputStream file = new FileInputStream(commitFileName);
+                            ObjectInputStream in = new ObjectInputStream(file);
+
+                            versionControl = (VersionControl) in.readObject(); 
+                            Server.list = versionControl.getLatestVersion();
+
+                            in.close();
+                            file.close();
+                            Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                            setServerConnect(msg);
+
+                        } catch (FileNotFoundException e) {
+
+                            System.out.println("No data to pull from storage");
+                        }
+                    } else if (msg.instruction.equalsIgnoreCase("revert")) {
+
+                        try {
+                            
+                            FileInputStream file = new FileInputStream(commitFileName);
+                            ObjectInputStream in = new ObjectInputStream(file);
+
+                            versionControl = (VersionControl) in.readObject(); 
+                            if (versionControl.getPreviousVersion() == null) throw new FileNotFoundException();
+                            versionControl.setLatestVersion(versionControl.getPreviousVersion());
+                            Server.list = versionControl.getLatestVersion();
+                            versionControl.setPreviousVersion(null);
+
+                            in.close();
+                            file.close();
+                            msg.instruction = "revert";
+                            Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
+                            setServerConnect(msg);
+
+                        } catch (FileNotFoundException e) {
+
+                            versionControl.setLatestVersion(Server.list);
+                            System.out.println("No version to return to");
+                        }
+                    } else if (msg.instruction.equalsIgnoreCase("delete")) {
+
+                        output.writeObject(new Message("Enter data to delete: "));
+                        msg = (Message) input.readObject();
+                        Server.list.remove(Integer.parseInt(msg.message));
+                        msg.instruction = "delete";
                         Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
                         setServerConnect(msg);
-
-                    } catch (FileNotFoundException e) {
-
-                        System.out.println("No data to pull from storage");
                     }
-                } else if (msg.instruction.equalsIgnoreCase("revert")) {
+                } else {
 
-                    try {
-                        
-                        FileInputStream file = new FileInputStream(commitFileName);
-                        ObjectInputStream in = new ObjectInputStream(file);
+                    for (int i = 0; msg.commands.size() > 0;) {
 
-                        versionControl = (VersionControl) in.readObject(); 
-                        if (versionControl.getPreviousVersion() == null) throw new FileNotFoundException();
-                        versionControl.setLatestVersion(versionControl.getPreviousVersion());
-                        Server.list = versionControl.getLatestVersion();
-                        versionControl.setPreviousVersion(null);
+                        if (msg.commands.get(i).equalsIgnoreCase("append")) {
 
-                        in.close();
-                        file.close();
-                        msg.instruction = "revert";
-                        Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                        setServerConnect(msg);
+                            String cmd = msg.commands.remove(i);
+                            Server.list.append(Integer.parseInt(msg.commands.remove(i)));
+                            Server.log(cmd, socket.getInetAddress(), socket.getPort());
+                        } else if (msg.commands.get(i).equalsIgnoreCase("commit")) {
 
-                    } catch (FileNotFoundException e) {
+                            try {
+                            
+                                FileInputStream file = new FileInputStream(commitFileName);
+                                ObjectInputStream in = new ObjectInputStream(file);
+    
+                                versionControl = (VersionControl) in.readObject(); 
+                                versionControl.setPreviousVersion(versionControl.getLatestVersion());
+                                versionControl.setLatestVersion(Server.list);
+    
+                                in.close();
+                                file.close();
+    
+                            } catch (FileNotFoundException e) {
+    
+                                versionControl.setLatestVersion(Server.list);
+                            }
+    
+                            try {
+                                
+                                FileOutputStream file = new FileOutputStream(commitFileName);
+                                ObjectOutputStream out = new ObjectOutputStream(file);
+    
+                                out.writeObject(versionControl);
+    
+                                out.close();
+                                file.close();
+                                String cmd = msg.commands.remove(i);
+                                Server.log(cmd, socket.getInetAddress(), socket.getPort());
+                                
+                            } catch (IOException e) {}
+                            System.out.println(String.format("Command ArrayList size is", msg.commands.size()));
+                        } else if (msg.commands.get(i).equalsIgnoreCase("revert")) {
 
-                        versionControl.setLatestVersion(Server.list);
-                        System.out.println("No version to return to");
+                            try {
+                            
+                                FileInputStream file = new FileInputStream(commitFileName);
+                                ObjectInputStream in = new ObjectInputStream(file);
+    
+                                versionControl = (VersionControl) in.readObject(); 
+                                if (versionControl.getPreviousVersion() == null) throw new FileNotFoundException();
+                                versionControl.setLatestVersion(versionControl.getPreviousVersion());
+                                Server.list = versionControl.getLatestVersion();
+                                versionControl.setPreviousVersion(null);
+    
+                                in.close();
+                                file.close();
+                                String cmd = msg.commands.remove(i);
+                                Server.log(cmd, socket.getInetAddress(), socket.getPort());
+    
+                            } catch (FileNotFoundException e) {
+    
+                                versionControl.setLatestVersion(Server.list);
+                                System.out.println("No version to return to");
+                            }
+                        } else if (msg.commands.get(i).equalsIgnoreCase("delete")) {
+
+                            String cmd = msg.commands.remove(i);
+                            Server.list.remove(Integer.parseInt(msg.commands.remove(i)));
+                            Server.log(cmd, socket.getInetAddress(), socket.getPort());
+                        }
                     }
-                } else if (msg.instruction.equalsIgnoreCase("delete")) {
-
-                    output.writeObject(new Message("Enter data to delete: "));
-                    msg = (Message) input.readObject();
-                    Server.list.remove(Integer.parseInt(msg.message));
-                    msg.instruction = "delete";
-                    Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                    setServerConnect(msg);
                 }
                 
                 System.out.println(String.format("[%s:%d] %s", socket.getInetAddress(), socket.getPort(), msg.message));
