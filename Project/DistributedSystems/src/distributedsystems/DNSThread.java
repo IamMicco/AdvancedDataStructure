@@ -37,9 +37,9 @@ public class DNSThread extends Thread {
                 
                             final ObjectOutputStream serverOutput = new ObjectOutputStream(sock.getOutputStream());
                 
-                            serverOutput.writeObject(msg.commands);
+                            serverOutput.writeObject(msg);
                             System.out.println("Command transfer from Server complete");
-                            sock.close();
+                            // sock.close();
                             
                         } catch (IOException e) {
                             

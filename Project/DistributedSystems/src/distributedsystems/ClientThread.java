@@ -40,7 +40,7 @@ public class ClientThread extends Thread {
                         Server.list.append(Integer.parseInt(msg.message));
                         msg.instruction = "append";
                         Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                        setServerConnect(msg);
+                        // setServerConnect(msg);
                         System.out.println(String.format("Message: %s | Instruction: %s", msg.message, msg.instruction));
 
                     } else if (msg.instruction.equalsIgnoreCase("view")) {
@@ -77,7 +77,7 @@ public class ClientThread extends Thread {
                             file.close();
                             msg.instruction = "commit";
                             Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                            setServerConnect(msg);
+                            // setServerConnect(msg);
                             
                         } catch (IOException e) {}
                         @SuppressWarnings("unchecked")
@@ -96,7 +96,7 @@ public class ClientThread extends Thread {
                             in.close();
                             file.close();
                             Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                            setServerConnect(msg);
+                            // setServerConnect(msg);
 
                         } catch (FileNotFoundException e) {
 
@@ -119,7 +119,7 @@ public class ClientThread extends Thread {
                             file.close();
                             msg.instruction = "revert";
                             Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                            setServerConnect(msg);
+                            // setServerConnect(msg);
 
                         } catch (FileNotFoundException e) {
 
@@ -133,7 +133,7 @@ public class ClientThread extends Thread {
                         Server.list.remove(Integer.parseInt(msg.message));
                         msg.instruction = "delete";
                         Server.log(msg.instruction, socket.getInetAddress(), socket.getPort());
-                        setServerConnect(msg);
+                        // setServerConnect(msg);
                     }
                 } else {
 
