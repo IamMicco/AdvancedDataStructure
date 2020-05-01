@@ -1,20 +1,22 @@
 # AdvancedDataStructure - Final Project
 
-## Start DServer.java without any arguments
+## To setup DServer
+
+run without arguments
 
 ## To setup server
 
-run as arguments
+run
 
 ```
-"port" "Server name"
+args["port", "Server name"];
 ```
 Note: make sure to give each server a unique name
 
 ## To setup client
 
-run as argument
+run
 
 ```
-"Server port number"
+args["Server port number"];
 ```
