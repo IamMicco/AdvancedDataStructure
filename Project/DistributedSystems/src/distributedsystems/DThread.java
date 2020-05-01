@@ -3,11 +3,11 @@ package distributedsystems;
 import java.io.*;
 import java.net.Socket;
 
-public class DNSThread extends Thread {
+public class DThread extends Thread {
 
     private final Socket socket;
 
-    public DNSThread (Socket _socket) {
+    public DThread (Socket _socket) {
 
         socket = _socket;
     }
@@ -26,14 +26,14 @@ public class DNSThread extends Thread {
             msg = (Message)input.readObject();
             if (msg.message == null && msg.isServer) {
 
-                for (int port : DNSServer.servers) {
+                for (int port : DServer.servers) {
 
                     if (port != msg.PORT) {
 
                         try {
 
                             final Socket sock = new Socket(Config.ipAddress, port);
-                            DNSServer.broadCastPORT = sock.getLocalPort();
+                            DServer.broadCastPORT = sock.getLocalPort();
                 
                             final ObjectOutputStream serverOutput = new ObjectOutputStream(sock.getOutputStream());
                 
@@ -50,12 +50,12 @@ public class DNSThread extends Thread {
             } 
             // else if (msg.instruction.equalsIgnoreCase("getsocketport")) { 
 
-            //     output.writeObject(DNSServer.broadCastPORT);
+            //     output.writeObject(DServer.broadCastPORT);
             // } 
             else {
 
-                DNSServer.servers.add(Integer.parseInt(msg.message));
-                output.writeObject(DNSServer.servers);
+                DServer.servers.add(Integer.parseInt(msg.message));
+                output.writeObject(DServer.servers);
 
             }
             

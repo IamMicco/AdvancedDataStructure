@@ -39,7 +39,7 @@ public class Server {
 
         try {
 
-            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
+            final Socket sock = new Socket(Config.ipAddress, Config.DServerPort);
 
             final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
             final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
@@ -67,7 +67,7 @@ public class Server {
 
         try {
 
-            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
+            final Socket sock = new Socket(Config.ipAddress, Config.DServerPort);
 
             final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
 
@@ -84,7 +84,7 @@ public class Server {
 
         try {
 
-            final Socket sock = new Socket(Config.ipAddress, Config.DNSServerPort);
+            final Socket sock = new Socket(Config.ipAddress, Config.DServerPort);
 
             final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
             final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());

@@ -222,38 +222,38 @@ public class ClientThread extends Thread {
         }
     }
 
-    public void setServerConnect(Message msg) {
+    // public void setServerConnect(Message msg) {
 
-        Server.setDNSConnection();
-        for (int server : Server.servers) {
+    //     Server.setDNSConnection();
+    //     for (int server : Server.servers) {
 
-            if (server != Server.PORT) {
+    //         if (server != Server.PORT) {
 
-                try {
+    //             try {
 
-                    final Socket sock = new Socket(Config.ipAddress, server);
+    //                 final Socket sock = new Socket(Config.ipAddress, server);
 
-                    final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
-                    final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
+    //                 final ObjectOutputStream output = new ObjectOutputStream(sock.getOutputStream());
+    //                 final ObjectInputStream input = new ObjectInputStream(sock.getInputStream());
 
-                    Message resp = null;
+    //                 Message resp = null;
 
-                    output.writeObject(msg);
-                    resp = (Message)input.readObject();
-                    System.out.println(String.format("\nServer says: %s\n", resp.message));
+    //                 output.writeObject(msg);
+    //                 resp = (Message)input.readObject();
+    //                 System.out.println(String.format("\nServer says: %s\n", resp.message));
                     
-                    sock.close();
-                } catch (UnknownHostException e) {
+    //                 sock.close();
+    //             } catch (UnknownHostException e) {
 
-                    e.printStackTrace();
-                } catch (IOException e) {
+    //                 e.printStackTrace();
+    //             } catch (IOException e) {
 
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
+    //                 e.printStackTrace();
+    //             } catch (ClassNotFoundException e) {
 
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    //                 e.printStackTrace();
+    //             }
+    //         }
+    //     }
+    // }
 }

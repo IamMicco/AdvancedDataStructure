@@ -4,15 +4,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
 
-public class DNSServer {
+public class DServer {
 
     public static HashSet<Integer> servers = new HashSet<>();
     public static int broadCastPORT;
     private int PORT;
 
-    public DNSServer () {
+    public DServer () {
 
-        PORT = Config.DNSServerPort;
+        PORT = Config.DServerPort;
     }
 
     public void start () {
@@ -26,7 +26,7 @@ public class DNSServer {
             while (true) {
 
                 sock = serverSock.accept();
-                thread = new DNSThread(sock);
+                thread = new DThread(sock);
                 thread.start();
             }
         } catch (Exception e) {
@@ -39,9 +39,9 @@ public class DNSServer {
     public static void main(String[] args) {
         
         /**
-         * args[0]: Enter DNSserver name for logfile name entry
+         * args[0]: Enter Dserver name for logfile name entry
          */
-        DNSServer DNSServer = new DNSServer();
-        DNSServer.start();
+        DServer DServer = new DServer();
+        DServer.start();
     }
 }
